@@ -22,6 +22,8 @@ import random
 
 class Ui_MainWindow(object):
  
+
+       
    
     # def drop_database(database_file):
     #     try:
@@ -36,40 +38,43 @@ class Ui_MainWindow(object):
     # drop_database(database_file)
         
 
-    def create_database(self):
-        conn = sqlite3.connect("sjmc.db")
-        cur = conn.cursor()
+    # def create_database(self):
+    #     conn = sqlite3.connect("sjmc.db")
+    #     cur = conn.cursor()
 
-        # Create the projecttau3 table if it doesn't exist
-        cur.execute('''
-            CREATE TABLE IF NOT EXISTS sjmc_table (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                last_name TEXT,
-                first_name TEXT,
-                middle_name TEXT,
-                T_birth DATE,
-                email TEXT,
-                phone TEXT,
-                aka TEXT,
-                gt TEXT,
-                batch_name TEXT,
-                current_chapter TEXT,
-                root_chapter TEXT,
-                stat TEXT,
-                address TEXT,
-                custom_member_id TEXT,
-                photo BLOB
+    #     # Create the projecttau3 table if it doesn't exist
+    #     cur.execute('''
+    #         CREATE TABLE IF NOT EXISTS sjmc_table (
+    #             id INTEGER PRIMARY KEY AUTOINCREMENT,
+    #             last_name TEXT,
+    #             first_name TEXT,
+    #             middle_name TEXT,
+    #             T_birth DATE,
+    #             email TEXT,
+    #             phone TEXT,
+    #             aka TEXT,
+    #             gt TEXT,
+    #             batch_name TEXT,
+    #             current_chapter TEXT,
+    #             root_chapter TEXT,
+    #             stat TEXT,
+    #             address TEXT,
+    #             custom_member_id TEXT,
+    #             photo BLOB
                    
-            )
-        ''')
+    #         )
+    #     ''')
 
-        self.messageBox("Information", "database created")
+    #     self.messageBox("Information", "database created")
 
-        # Commit the changes and close the connection
-        conn.commit()
-        conn.close()
+    #     # Commit the changes and close the connection
+    #     conn.commit()
+    #     conn.close()
 
-
+    def default_pic(self):
+        self.addPic_edit.setText("logo/Men.png")
+        self.picture_label.setPixmap(QtGui.QPixmap("logo/Men.png")) 
+        pass
 
     def messageBox(self,title,message):
         mess=QtWidgets.QMessageBox()
@@ -240,65 +245,56 @@ class Ui_MainWindow(object):
                 else:
                     self.messageBox("Tau Gamma Phi", " Member Data Saved")
                     self.conn.commit()
-                    #self.Savebutton.setEnabled(False)
-                    #self.addbuttom.setEnabled(True)
-                    # self.cancel()
+                    self.save_btn.setEnabled(False)
+                    self.add_btn.setEnabled(True)
+                    self.cancel()
                     self.loadData()
                     # self.total_res()
 
-    # def insert_data(self, last_name, first_name, middle_name, T_birth, email, phone, aka, gt, batch_name, current_chapter, root_chapter, stat, address,):
-    #     try:
-    #         # Connect to SQLite3 database
-    #         conn = sqlite3.connect("sjmc.db")
-    #         cur = conn.cursor()
+   
+    def update(self):
+        """Update information and save information to the database"""
 
-    #         # Generate custom member ID
-    #         custom_member_id = self.generate_custom_member_id(last_name, first_name, middle_name, T_birth)
+        p = self.addPic_edit.text()
+        im = Image.open(p)
+        im.save(p, quality=95)
+        with open(p, 'rb') as f:
+            m = f.read()
 
-    #         p = self.addPic_edit.text()
-    #         if len(p) == 0:
-    #             self.messageBox("Add Photo", "You have no photo selected, \n Default Photo will be used!")
-    #             self.default()
-    #         else:
-    #             with open(p, 'rb') as f:
-    #                 m = f.read()
+        id = self.id_lineEdit.text()
+        mem_id = self.mem_id_lineEdit.text()
+        lname = self.lname_lineEdit.text()
+        fname = self.fname_lineEdit.text()
+        mname = self.mname_lineEdit.text()
+        tbirth = self.tbirt_dateEdit.date()
+        var_date = tbirth.toPyDate()
+        email = self.email_lineEdit.text()
+        phone = self.phone_lineEdit.text()
+        aka = self.aka_lineEdit.text()
+        gt = self.gt_lineEdit.text()
+        batch = self.batch_name_lineEdit.text()
+        current = self.current_chapter_lineEdit.text()
+        root = self.root_chapter_lineEdit.text()
+        status = self.status_comboBox.currentText()
+        address = self.address_lineEdit.text()
 
-    #         last_name = self.lname_lineEdit.text()
-    #         first_name = self.fname_lineEdit.text()
-    #         middle_name = self.mname_lineEdit.text()
-    #         tbirth = self.tbirt_dateEdit.date()
-    #         T_birth = tbirth.toPyDate()
-    #         email = self.email_lineEdit.text()
-    #         phone = self.phone_lineEdit.text()
-    #         aka = self.aka_lineEdit.text()
-    #         gt = self.gt_lineEdit.text()
-    #         batch_name = self.batch_name_lineEdit.text()
-    #         current_chapter = self.current_chapter_lineEdit.text()
-    #         root_chapter = self.root_chapter_lineEdit.text()
-    #         stat = self.status_comboBox.currentText()
-    #         address = self.address_lineEdit.text()
-          
+        self.conn = sqlite3.connect("sjmc.db")
+        cur = self.conn.cursor()
 
-    #         # Insert data into the sjmc_table with the auto-incrementing primary key
-    #         cur.execute('''
-    #             INSERT INTO sjmc_table (
-    #                 last_name, first_name, middle_name, T_birth, email, phone, aka, gt,
-    #                 batch_name, current_chapter, root_chapter, stat, address, photo, custom_member_id
-    #             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    #         ''', (last_name, first_name, middle_name, T_birth, email, phone, aka, gt,
-    #               batch_name, current_chapter, root_chapter, stat, address, custom_member_id, m))
+        sql = "UPDATE sjmc_table SET custom_member_id=?, last_name=?, first_name=?, middle_name=?, T_birth=?, email=?, phone=?, aka=?, gt=?, batch_name=?,  current_chapter=?, root_chapter=?, stat=?, address=?, photo=? WHERE id=?"
 
-    #         self.messageBox("Information", "Data inserted successfully")
+        try:
+            cur.execute(sql, (mem_id, lname.upper(), fname.upper(), mname.upper(), str(var_date), email, phone, aka.upper(), gt.upper(), batch.upper(),  current.upper(), root.upper(), status.upper(), address.upper(), m, id))
+            self.conn.commit()
+            self.messageBox("Tau Gamma Phi", "Member Data Updated")
+            self.loadData()
+            self.cell_click_disabledTextbox()
+        except sqlite3.Error as e:
+            self.messageBox("Error", f"An error occurred: {e}")
+        finally:
+            self.conn.close()
 
-    #     except sqlite3.Error as e:
-    #         print("Error Occurred:", e)
-    #         self.messageBox("Error", f"Error occurred: {e}")
 
-    #     finally:
-    #         # Commit the changes and close the connection
-    #         conn.commit()
-    #         conn.close()
-    #         self.loadData()
 
     def loadData(self):
         """Load data into the table"""
@@ -323,134 +319,35 @@ class Ui_MainWindow(object):
             print("Error Occurred:", e)
                     
 
-    # def loadData(self):
-    #     """Load data into the table"""
+    def edit(self):
+        """ Edit the specific person in the database"""
+        mem_id = self.id_lineEdit.text()
+        if len(mem_id) == 0:
+            self.messageBox("Tau Gamma Phi", "No Data Found")
+            return
+        else:
+            self.lname_lineEdit.setEnabled(True)
+            self.fname_lineEdit.setEnabled(True)
+            self.mname_lineEdit.setEnabled(True)
+            self.tbirt_dateEdit.setEnabled(True)
+            self.email_lineEdit.setEnabled(True)
+            self.phone_lineEdit.setEnabled(True)
+            self.aka_lineEdit.setEnabled(True)
+            self.gt_lineEdit.setEnabled(True)
+            self.batch_name_lineEdit.setEnabled(True)
+            self.current_chapter_lineEdit.setEnabled(True)
+            self.root_chapter_lineEdit.setEnabled(True)
+            self.status_comboBox.setEnabled(True)
+            self.address_lineEdit.setEnabled(True)
 
-    #     try:
-    #         # Connect to SQLite3 database
-    #         with sqlite3.connect("sjmc.db") as conn:
-    #             cur = conn.cursor()
-
-    #             query = "SELECT * FROM sjmc_table ORDER BY last_name ASC"
-    #             cur.execute(query)
-
-    #             self.tableWidget.setRowCount(0)
-
-    #             while True:
-    #                 row_data = cur.fetchone()
-    #                 if not row_data:
-    #                     break
-
-    #                 row_number = self.tableWidget.rowCount()
-    #                 self.tableWidget.insertRow(row_number)
-
- 
-    #                 for column_number, data in enumerate(row_data):
-    #                     self.tableWidget.setItem(row_number, column_number, QTableWidgetItem(str(data)))
-
-               
-
-
-        # except sqlite3.Error as e:
-        #     print("Error Occurred:", e)
-                    
-    # def loadData(self):
-    #     """Load data into the table"""
-
-    #     try:
-    #         # Connect to SQLite3 database
-    #         conn = sqlite3.connect("sjmc.db")
-    #         cur = conn.cursor()
-
-    #         cur.execute("SELECT * FROM sjmc_table ORDER BY last_name ASC")
-    #         result = cur.fetchall()
-
-    #         self.tableWidget.setRowCount(0)
-
-    #         for row_number, row_data in enumerate(result):
-    #             self.tableWidget.insertRow(row_number)
-
-    #             for column_number, data in enumerate(row_data):
-    #                 item = QTableWidgetItem()
-    #                 if column_number == 15:  # Replace PHOTO_COLUMN_INDEX with the actual index of the 'photo' column
-    #                     # Set a custom role to distinguish from other roles
-    #                     item.setData(QtCore.Qt.UserRole + 1, data)
-    #                 else:
-    #                     item.setData(QtCore.Qt.DisplayRole, data)
-
-    #                 self.tableWidget.setItem(row_number, column_number, item)
-
-    #     except sqlite3.Error as e:
-    #         print("Error Occurred:", e)
-
-
-    # def cell_click(self, columnCount, rowCount):
-    #     """Get specific information when clicking the member ID field"""
-
-    #     try:
-    #         # Connect to SQLite3 database
-    #         conn = sqlite3.connect("sjmc.db")
-    #         cur = conn.cursor()
-
-    #         item = self.tableWidget.selectedItems()
-    #         i = int(item[0].text())
-
-    #         if rowCount != 0:
-    #             return
-    #         else:
-    #             cur.execute("SELECT * FROM sjmc_table WHERE id=?", (i,))
-    #             col = cur.fetchone()
-
-    #             mem_id, lname, fname, mname, tbirth, email, phone, aka, gt, batch, current, root, status, adde, pic = col[1:16]
-
-    #             # Set values in the UI elements
-    #             self.id_lineEdit.setText(str(i))
-    #             self.mem_id_lineEdit.setText(str(mem_id))
-    #             self.lname_lineEdit.setText(lname)
-    #             self.fname_lineEdit.setText(fname)
-    #             self.mname_lineEdit.setText(mname)
-
-    #             # Check for valid date before setting it in QDateEdit
-    #             tbirth_date = None
-    #             try:
-    #                 tbirth_date = datetime.strptime(tbirth, '%Y-%m-%d').date()
-    #             except ValueError as ve:
-    #                 print(f"Error parsing tbirth: {ve}")
-    #                 # Handle the case where tbirth is not in the expected format
-    #                 # You might want to provide a default date or handle it based on your application logic
-
-    #             if tbirth_date:
-    #                 self.tbirt_dateEdit.setDate(tbirth_date)
-    #             else:
-    #                 print("Invalid tbirth date:", tbirth)
-
-    #             # Continue setting other values in the UI elements
-    #             self.email_lineEdit.setText(email)
-    #             self.phone_lineEdit.setText(phone)
-    #             self.aka_lineEdit.setText(aka)
-    #             self.gt_lineEdit.setText(gt)
-    #             self.batch_name_lineEdit.setText(batch)
-    #             self.current_chapter_lineEdit.setText(current)
-    #             self.root_chapter_lineEdit.setText(root)
-    #             self.status_comboBox.setCurrentText(status)
-    #             self.address_lineEdit.setText(adde)
-
-
-
-    #             # Save the image to a file and display it
-    #             with open('logo/pic.png', 'wb') as f:
-    #                 f.write(pic)
-    #             # with open("logo/pic.png", "wb") as f:
-    #             #     f.write(pic.encode('utf-8') if isinstance(pic, str) else pic)
-    #             self.addPic_edit.setText('logo/pic.png')
-    #             self.picture_label.setPixmap(QPixmap("logo/pic.png"))
-    #             # print("mem_id:", mem_id)
+            self.cancel_btn.setEnabled(True)
+            self.add_btn.setEnabled(False)
+            self.refresh_btn.setEnabled(False)
+            self.edit_btn.setEnabled(False)
+            self.add_photo_btn.setEnabled(True)
+            self.update_btn.show()
+            self.save_btn.hide()
             
-
-
-
-    #     except sqlite3.Error as e:
-    #         print("Error Occurred:", e)
             
     def cell_click(self, columnCount, rowCount):
         """Get specific information when clicking the member ID field"""
@@ -489,6 +386,7 @@ class Ui_MainWindow(object):
                 self.status_comboBox.setCurrentText(status)
                 self.address_lineEdit.setText(adde)
                 self.mem_id_lineEdit.setText(str(mem_id))
+                self.cell_click_disabledTextbox()
 
 
 
@@ -504,6 +402,245 @@ class Ui_MainWindow(object):
             print("Error Occurred:", e)
 
 
+    
+    def cell_click_disabledTextbox(self):
+        """ return to view mode"""
+        self.add_btn.setEnabled(True)
+        self.save_btn.setEnabled(False)
+        self.cancel_btn.setEnabled(False)
+        self.refresh_btn.setEnabled(True)
+        self.edit_btn.setEnabled(True)
+        # self.update_btn.hide()
+        self.save_btn.show()
+
+        self.lname_lineEdit.setEnabled(False)
+        self.fname_lineEdit.setEnabled(False)
+        self.mname_lineEdit.setEnabled(False)
+        self.tbirt_dateEdit.setEnabled(False)
+        self.email_lineEdit.setEnabled(False)
+        self.phone_lineEdit.setEnabled(False)
+        self.aka_lineEdit.setEnabled(False)
+        self.gt_lineEdit.setEnabled(False)
+        self.batch_name_lineEdit.setEnabled(False)
+        self.current_chapter_lineEdit.setEnabled(False)
+        self.root_chapter_lineEdit.setEnabled(False)
+        self.status_comboBox.setEnabled(False)
+        self.address_lineEdit.setEnabled(False)
+        # self.camera_btn.setEnabled(False)
+
+    def add(self):
+        """ activate or enable all the fields """
+        self.lname_lineEdit.setEnabled(True)
+        self.fname_lineEdit.setEnabled(True)
+        self.mname_lineEdit.setEnabled(True)
+        self.tbirt_dateEdit.setEnabled(True)
+        self.email_lineEdit.setEnabled(True)
+        self.phone_lineEdit.setEnabled(True)
+        self.aka_lineEdit.setEnabled(True)
+        self.gt_lineEdit.setEnabled(True)
+        self.batch_name_lineEdit.setEnabled(True)
+        self.current_chapter_lineEdit.setEnabled(True)
+        self.root_chapter_lineEdit.setEnabled(True)
+        self.status_comboBox.setEnabled(True)
+        self.address_lineEdit.setEnabled(True)
+
+        self.edit_btn.setEnabled(False)
+        self.add_btn.setEnabled(False)
+        self.save_btn.setEnabled(True)
+        self.cancel_btn.setEnabled(True)
+        self.refresh_btn.setEnabled(False)
+        self.add_photo_btn.setEnabled(True)
+       
+
+        self.lname_lineEdit.clear()
+        self.fname_lineEdit.clear()
+        self.mname_lineEdit.clear()
+        self.tbirt_dateEdit.clear()
+        self.email_lineEdit.clear()
+        self.phone_lineEdit.clear()
+        self.aka_lineEdit.clear()
+        self.gt_lineEdit.clear()
+        self.batch_name_lineEdit.clear()
+        self.current_chapter_lineEdit.clear()
+        self.root_chapter_lineEdit.clear()
+        default_status = "ACTIVE"  # Change this to your actual default status
+        self.status_comboBox.setCurrentText(default_status)
+        self.address_lineEdit.clear()
+        self.mem_id_lineEdit.clear()
+        self.default_pic()
+
+
+    def cancel(self):
+        """Return to default """
+        self.lname_lineEdit.setEnabled(False)
+        self.fname_lineEdit.setEnabled(False)
+        self.mname_lineEdit.setEnabled(False)
+        self.tbirt_dateEdit.setEnabled(False)
+        self.email_lineEdit.setEnabled(False)
+        self.phone_lineEdit.setEnabled(False)
+        self.aka_lineEdit.setEnabled(False)
+        self.gt_lineEdit.setEnabled(False)
+        self.batch_name_lineEdit.setEnabled(False)
+        self.current_chapter_lineEdit.setEnabled(False)
+        self.root_chapter_lineEdit.setEnabled(False)
+        self.status_comboBox.setEnabled(False)
+        self.address_lineEdit.setEnabled(False)
+
+        self.edit_btn.setEnabled(True)
+        self.add_btn.setEnabled(True)
+        self.save_btn.setEnabled(False)
+        self.save_btn.show()
+        self.update_btn.hide()
+        self.cancel_btn.setEnabled(False)
+        self.refresh_btn.setEnabled(True)
+        self.edit_btn.setEnabled(True)
+        self.add_photo_btn.setEnabled(False)
+
+        self.lname_lineEdit.clear()
+        self.fname_lineEdit.clear()
+        self.mname_lineEdit.clear()
+        self.tbirt_dateEdit.clear()
+        self.email_lineEdit.clear()
+        self.phone_lineEdit.clear()
+        self.aka_lineEdit.clear()
+        self.gt_lineEdit.clear()
+        self.batch_name_lineEdit.clear()
+        self.current_chapter_lineEdit.clear()
+        self.root_chapter_lineEdit.clear()
+        self.status_comboBox.currentText()
+        self.address_lineEdit.clear()
+        self.mem_id_lineEdit.clear()
+        self.default_pic()
+
+    
+    def refresh(self):
+        """ Clear all the fields"""
+        
+
+        self.id_lineEdit.clear()
+        self.lname_lineEdit.clear()
+        self.fname_lineEdit.clear()
+        self.mname_lineEdit.clear()
+        self.tbirt_dateEdit.clear()
+        self.email_lineEdit.clear()
+        self.phone_lineEdit.clear()
+        self.aka_lineEdit.clear()
+        self.gt_lineEdit.clear()
+        self.batch_name_lineEdit.clear()
+        self.current_chapter_lineEdit.clear()
+        self.root_chapter_lineEdit.clear()
+        self.status_comboBox.currentText()
+        self.address_lineEdit.clear()
+        self.mem_id_lineEdit.clear()
+        self.search_lineEdit.clear()
+        self.advance_search_lname_lineEdit.clear()
+        self.advance_search_fname_lineEdit.clear()
+        
+
+
+        self.lname_lineEdit.setEnabled(False)
+        self.fname_lineEdit.setEnabled(False)
+        self.mname_lineEdit.setEnabled(False)
+        self.tbirt_dateEdit.setEnabled(False)
+        self.email_lineEdit.setEnabled(False)
+        self.phone_lineEdit.setEnabled(False)
+        self.aka_lineEdit.setEnabled(False)
+        self.gt_lineEdit.setEnabled(False)
+        self.batch_name_lineEdit.setEnabled(False)
+        self.current_chapter_lineEdit.setEnabled(False)
+        self.root_chapter_lineEdit.setEnabled(False)
+        default_status = "Default Status"  # Change this to your actual default status
+        self.status_comboBox.setCurrentText(default_status)
+        self.address_lineEdit.setEnabled(False)
+
+
+
+        self.edit_btn.setEnabled(True)
+        self.add_btn.setEnabled(True)
+        self.save_btn.setEnabled(False)
+        self.cancel_btn.setEnabled(False)
+        self.refresh_btn.setEnabled(True)
+        self.add_photo_btn.setEnabled(False)
+        self.default_pic()
+        self.loadData()
+
+
+    def search_radio(self):
+        self.search_btn.show()
+        self.search_lineEdit.show()
+        self.advance_search_btn.hide()
+        self.advance_search_lname_lineEdit.hide()
+        self.advance_search_fname_lineEdit.hide()
+        self.advance_search_lname_lineEdit.clear()
+        self.advance_search_fname_lineEdit.clear()
+
+
+    def advance_radio(self):
+        self.search_btn.hide()
+        self.search_lineEdit.hide()
+        self.advance_search_btn.show()
+        self.advance_search_lname_lineEdit.show()
+        self.advance_search_fname_lineEdit.show()
+        self.search_lineEdit.clear()
+
+    def search(self):
+        """Return a person name or a chapter"""
+        try:
+            lname = self.search_lineEdit.text().strip()
+
+            if not lname:
+                self.messageBox("Information", "Search input cannot be empty.")
+                return
+
+            # Connect to SQLite3 database
+            conn = sqlite3.connect("sjmc.db")
+            cur = conn.cursor()
+
+            # Use placeholders in the SQL query
+            cur.execute("SELECT * FROM sjmc_table WHERE UPPER(last_name) = UPPER(?) OR UPPER(current_chapter) = UPPER(?)", (lname, lname))
+
+            result = cur.fetchall()
+
+            # counter = len(result)
+            # self.total_res_edit.setText(str(counter))
+
+            # if counter == 0:
+            #     self.messageBox("Information", "No results found.")
+            # else:
+            self.tableWidget.setRowCount(0)
+            for row_number, row_data in enumerate(result):
+                self.tableWidget.insertRow(row_number)
+
+                for column_number, data in enumerate(row_data):
+                    self.tableWidget.setItem(row_number, column_number, QTableWidgetItem(str(data)))
+
+        except sqlite3.Error as e:
+            print("Error Occurred:", e)
+
+
+    def advance_search(self):
+        """ return specific person"""
+        row = 0
+       
+        mydb =sqlite3.connect("sjmc.db")
+            
+        mycursor = mydb.cursor()
+        lname = self.advance_search_lname_lineEdit.text()
+        fname= self.advance_search_fname_lineEdit.text()
+        mycursor.execute("SELECT * FROM sjmc_table WHERE last_name = '"+lname.upper()+"' AND first_name = '"+fname.upper()+"'");
+        result = mycursor.fetchall()
+        if len(lname) == 0 or len(fname) == 0:
+            self.messageBox("Information", " Last Name or First Neme Field  Cannot be empty!")
+
+        else:
+            self.tableWidget.setRowCount(0)
+            for row_number, row_data in enumerate(result):
+                self.tableWidget.insertRow(row_number)
+
+                for column_number, data in enumerate(row_data):
+                    self.tableWidget.setItem(row_number, column_number, QTableWidgetItem(str(data)))
+
+
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -512,7 +649,6 @@ class Ui_MainWindow(object):
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(MainWindow.sizePolicy().hasHeightForWidth())
-        # MainWindow.setWindowFlags( QtCore.Qt.WindowMaximizeButtonHint )
         MainWindow.setWindowFlag(Qt.WindowMaximizeButtonHint, False)
         MainWindow.setSizePolicy(sizePolicy)
         icon = QtGui.QIcon()
@@ -522,9 +658,8 @@ class Ui_MainWindow(object):
         MainWindow.setIconSize(QtCore.QSize(30, 30))
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
-    
-
-
+       
+        ###########----------TABLE-----------########
         self.tableWidget = QtWidgets.QTableWidget(self.centralwidget)
         self.tableWidget.setGeometry(QtCore.QRect(50, 180, 1281, 321))
         self.tableWidget.setObjectName("tableWidget")
@@ -640,6 +775,7 @@ class Ui_MainWindow(object):
         font = QtGui.QFont()
         # font = QFont("Arial", 12)  # Specify the font name and size
         self.mem_id_lineEdit.setFont(font)
+        self.mem_id_lineEdit.setEnabled(False)
         
 
 
@@ -648,6 +784,7 @@ class Ui_MainWindow(object):
         self.add_photo_btn.setGeometry(QtCore.QRect(20, 820, 111, 41))
         self.add_photo_btn.setObjectName("add_photo_btn")
         self.add_photo_btn.clicked.connect(self.browse_image)
+        self.add_photo_btn.setEnabled(False)
 
         self.col_btn = QtWidgets.QPushButton(self.centralwidget)
         self.col_btn.setGeometry(QtCore.QRect(140, 820, 101, 41))
@@ -666,6 +803,7 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         self.lname_lineEdit.setFont(font)
         self.lname_lineEdit.setObjectName("lineEdit")
+        self.lname_lineEdit.setEnabled(False)
 
         self.lname_label = QtWidgets.QLabel(self.member_info_frame)
         self.lname_label.setGeometry(QtCore.QRect(20, 20, 71, 16))
@@ -678,6 +816,7 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         self.fname_lineEdit.setFont(font)
         self.fname_lineEdit.setObjectName("fname_lineEdit")
+        self.fname_lineEdit.setEnabled(False)
 
         self.Fname_label = QtWidgets.QLabel(self.member_info_frame)
         self.Fname_label.setGeometry(QtCore.QRect(240, 20, 71, 16))
@@ -690,6 +829,7 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         self.mname_lineEdit.setFont(font)
         self.mname_lineEdit.setObjectName("mname_lineEdit")
+        self.mname_lineEdit.setEnabled(False)
 
         self.mname_label = QtWidgets.QLabel(self.member_info_frame)
         self.mname_label.setGeometry(QtCore.QRect(460, 20, 71, 16))
@@ -706,6 +846,7 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         self.current_chapter_lineEdit.setFont(font)
         self.current_chapter_lineEdit.setObjectName("current_chapter_lineEdit")
+        self.current_chapter_lineEdit.setEnabled(False)
 
         self.root_chapter_label = QtWidgets.QLabel(self.member_info_frame)
         self.root_chapter_label.setGeometry(QtCore.QRect(900, 20, 101, 16))
@@ -717,6 +858,7 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         self.root_chapter_lineEdit.setFont(font)
         self.root_chapter_lineEdit.setObjectName("root_chapter_lineEdit")
+        self.root_chapter_lineEdit.setEnabled(False)
 
 
         self.aka_label = QtWidgets.QLabel(self.member_info_frame)
@@ -729,12 +871,14 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         self.aka_lineEdit.setFont(font)
         self.aka_lineEdit.setObjectName("aka_lineEdit")
+        self.aka_lineEdit.setEnabled(False)
 
 
         self.tbirt_dateEdit = QtWidgets.QDateEdit(self.member_info_frame)
         self.tbirt_dateEdit.setGeometry(QtCore.QRect(240, 110, 191, 31))
         self.tbirt_dateEdit.setObjectName("tbirt_dateEdit")
-
+        self.tbirt_dateEdit.setEnabled(False)
+        self.tbirt_dateEdit.setDate(QDate.currentDate())
         self.tbirt_label = QtWidgets.QLabel(self.member_info_frame)
         self.tbirt_label.setGeometry(QtCore.QRect(240, 90, 101, 16))
         self.tbirt_label.setObjectName("aka_label_2")
@@ -746,6 +890,7 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         self.gt_lineEdit.setFont(font)
         self.gt_lineEdit.setObjectName("gt_lineEdit")
+        self.gt_lineEdit.setEnabled(False)
 
         self.gt_label = QtWidgets.QLabel(self.member_info_frame)
         self.gt_label.setGeometry(QtCore.QRect(460, 90, 101, 16))
@@ -758,6 +903,7 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         self.phone_lineEdit.setFont(font)
         self.phone_lineEdit.setObjectName("phone_lineEdit")
+        self.phone_lineEdit.setEnabled(False)
 
         self.phone_label = QtWidgets.QLabel(self.member_info_frame)
         self.phone_label.setGeometry(QtCore.QRect(20, 160, 101, 16))
@@ -774,6 +920,7 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         self.email_lineEdit.setFont(font)
         self.email_lineEdit.setObjectName("email_lineEdit")
+        self.email_lineEdit.setEnabled(False)
 
 
         self.address_label = QtWidgets.QLabel(self.member_info_frame)
@@ -786,6 +933,7 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         self.address_lineEdit.setFont(font)
         self.address_lineEdit.setObjectName("address_lineEdit")
+        self.address_lineEdit.setEnabled(False)
 
 
         self.batch_name_label = QtWidgets.QLabel(self.member_info_frame)
@@ -798,6 +946,7 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         self.batch_name_lineEdit.setFont(font)
         self.batch_name_lineEdit.setObjectName("batch_name_lineEdit")
+        self.batch_name_lineEdit.setEnabled(False)
 
 
         self.search_frame = QtWidgets.QFrame(self.member_info_frame)
@@ -810,24 +959,40 @@ class Ui_MainWindow(object):
         self.search_radioButton = QtWidgets.QRadioButton(self.search_frame)
         self.search_radioButton.setGeometry(QtCore.QRect(210, 10, 71, 17))
         self.search_radioButton.setObjectName("search_radioButton")
-
+        self.search_radioButton.toggled.connect(self.search_radio)
 
         self.advance_radioButton = QtWidgets.QRadioButton(self.search_frame)
         self.advance_radioButton.setGeometry(QtCore.QRect(290, 10, 111, 20))
         self.advance_radioButton.setObjectName("advance_radioButton")
-
+        self.advance_radioButton.toggled.connect(self.advance_radio)
 
         self.search_btn = QtWidgets.QPushButton(self.search_frame)
         self.search_btn.setGeometry(QtCore.QRect(10, 10, 191, 31))
         self.search_btn.setObjectName("search_btn")
+        self.search_btn.clicked.connect(self.search)
+
+        self.advance_search_btn = QtWidgets.QPushButton(self.search_frame)
+        self.advance_search_btn.setGeometry(QtCore.QRect(10, 10, 191, 31))
+        self.advance_search_btn.setObjectName("advance_search_btn")
+        self.advance_search_btn.hide()
+        self.advance_search_btn.clicked.connect(self.advance_search)
+
+        #SEARCH
+        self.search_lineEdit = QtWidgets.QLineEdit(self.search_frame)
+        self.search_lineEdit.setGeometry(QtCore.QRect(10, 50, 191, 31))
+        self.search_lineEdit.setObjectName("search_lineEdit")
 
 
+        #ADVANCE SEARCH
         self.advance_search_lname_lineEdit = QtWidgets.QLineEdit(self.search_frame)
         self.advance_search_lname_lineEdit.setGeometry(QtCore.QRect(10, 50, 191, 31))
         self.advance_search_lname_lineEdit.setObjectName("advance_search_lname_lineEdit")
+        self.advance_search_lname_lineEdit.hide()
+
         self.advance_search_fname_lineEdit = QtWidgets.QLineEdit(self.search_frame)
         self.advance_search_fname_lineEdit.setGeometry(QtCore.QRect(210, 50, 191, 31))
         self.advance_search_fname_lineEdit.setObjectName("advance_search_fname_lineEdit")
+        self.advance_search_fname_lineEdit.hide()
 
 
         self.status_label = QtWidgets.QLabel(self.member_info_frame)
@@ -839,6 +1004,7 @@ class Ui_MainWindow(object):
         self.status_comboBox.setObjectName("status_comboBox")
         self.status_comboBox.addItem("")
         self.status_comboBox.addItem("")
+        self.status_comboBox.setEnabled(False)
 
 
         self.voluntas_label = QtWidgets.QLabel(self.member_info_frame)
@@ -852,26 +1018,37 @@ class Ui_MainWindow(object):
         self.add_btn = QtWidgets.QPushButton(self.centralwidget)
         self.add_btn.setGeometry(QtCore.QRect(20, 890, 191, 41))
         self.add_btn.setObjectName("add_btn")
+        self.add_btn.clicked.connect(self.add)
 
         self.save_btn = QtWidgets.QPushButton(self.centralwidget)
         self.save_btn.setGeometry(QtCore.QRect(240, 890, 201, 41))
         self.save_btn.setObjectName("save_btn")
         self.save_btn.clicked.connect(self.insert_data)
+        self.save_btn.setEnabled(False)
       
 
+        self.update_btn = QtWidgets.QPushButton(self.centralwidget)
+        self.update_btn.setGeometry(QtCore.QRect(240, 890, 201, 41))
+        self.update_btn.setObjectName("update_btn")
+        self.update_btn.clicked.connect(self.update)
+        self.update_btn.hide()
+        
 
         self.cancel_btn = QtWidgets.QPushButton(self.centralwidget)
         self.cancel_btn.setGeometry(QtCore.QRect(470, 890, 201, 41))
         self.cancel_btn.setObjectName("cancel_btn")
+        self.cancel_btn.clicked.connect(self.cancel)
+        self.cancel_btn.setEnabled(False)
 
         self.edit_btn = QtWidgets.QPushButton(self.centralwidget)
         self.edit_btn.setGeometry(QtCore.QRect(700, 890, 201, 41))
         self.edit_btn.setObjectName("edit_btn")
+        self.edit_btn.clicked.connect(self.edit)
 
         self.refresh_btn = QtWidgets.QPushButton(self.centralwidget)
         self.refresh_btn.setGeometry(QtCore.QRect(930, 890, 201, 41))
         self.refresh_btn.setObjectName("refresh_btn")
-        # self.refresh_btn.clicked.connect(self.create_database)
+        self.refresh_btn.clicked.connect(self.refresh)
      
         
 
@@ -962,11 +1139,13 @@ class Ui_MainWindow(object):
         self.search_radioButton.setText(_translate("MainWindow", "SEARCH"))
         self.advance_radioButton.setText(_translate("MainWindow", "ADVANCE SEARCH"))
         self.search_btn.setText(_translate("MainWindow", "SEARCH"))
+        self.advance_search_btn.setText(_translate("MainWindow", "ADVANCE SEARCH"))
         self.status_label.setText(_translate("MainWindow", "STATUS"))
         self.status_comboBox.setItemText(0, _translate("MainWindow", "ACTIVE"))
         self.status_comboBox.setItemText(1, _translate("MainWindow", "INACTIVE"))
         self.add_btn.setText(_translate("MainWindow", "ADD NEW"))
         self.save_btn.setText(_translate("MainWindow", "SAVE"))
+        self.update_btn.setText(_translate("MainWindow", "UPDATE"))
         self.cancel_btn.setText(_translate("MainWindow", "CANCEL"))
         self.edit_btn.setText(_translate("MainWindow", "EDIT"))
         self.refresh_btn.setText(_translate("MainWindow", "REFRESH"))
