@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QMessageBox, QFileDialog, QTableWidgetItem, QStyledItemDelegate
+from PyQt5.QtWidgets import QMessageBox, QFileDialog, QTableWidgetItem
 from PyQt5.QtCore import QDate, Qt
 import sqlite3
 from PIL import Image
@@ -9,16 +9,6 @@ from datetime import datetime
 import random
 
 
-
-# class ImageDelegate(QStyledItemDelegate):
-#       def paint(self, painter, option, index):
-#         value = index.data(14)  # Use the correct index for the photo column
-#         if value is not None:
-#             pixmap = QtGui.QPixmap()
-#             pixmap.loadFromData(value)
-#             painter.drawPixmap(option.rect, pixmap)
-#         else:
-#             super().paint(painter, option, index)
 
 class Ui_MainWindow(object):
  
@@ -123,25 +113,11 @@ class Ui_MainWindow(object):
         p = self.addPic_edit.text()
         self.picture_label.setPixmap(QtGui.QPixmap(p)) 
 
-    
-    
-    # def generate_custom_member_id(self, lname, fname, mname, tbirth):
-    #     """Generate a custom member ID based on name initials, tbirth, and random 4 digits"""
-    #     name_initials = f"{lname[:4]}{fname[:4]}{mname[:4]}".upper()
-    #     tbirth_part = tbirth.replace("-", "")
-    #     random_digits = str(random.randint(1000, 9999))
-
-    #     custom_member_id = f"{name_initials}{tbirth_part}{random_digits}"
-    #     return custom_member_id
-
 
     def insert_data(self):
         """ Save the information in the database"""
 
         # Generate custom member ID
-
-   
-
         p = self.addPic_edit.text()
         im = Image.open(p)
         im.save(p, quality=95)
@@ -168,38 +144,23 @@ class Ui_MainWindow(object):
             status = self.status_comboBox.currentText()
             address = self.address_lineEdit.text()
         
-
+            #GENERATE CUSTOM MEMBER ID
             name_initials = f"{lname[:1]}{fname[:1]}{mname[:1]}".upper()
-            # tbirth_part = tbirth.replace("-", "")
             tbirth_part = tbirth.toString("yyyyMMdd")
             random_digits = str(random.randint(1000, 9999))
             custom_member_id = f"{name_initials}{tbirth_part}{random_digits}"
 
-            print("custom_member_id:", custom_member_id)
-
-
             mem_id = str(custom_member_id)
-
-           
-
-
-            # current = self.current_edit.text()
-            # root = self.root_edit.text()
-            # status = self.status_combobox.currentText()
-            # address = self.address_edit.text()
 
             # Connect to SQLite3 database
             self.conn = sqlite3.connect("sjmc.db")
 
-            query = ("INSERT INTO sjmc_table(last_name, first_name, middle_name, T_birth, email, phone, aka, gt, batch_name,  current_chapter, root_chapter, stat, address, photo, custom_member_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?)")
+            query = ("INSERT INTO sjmc_table(last_name, first_name, middle_name, T_birth, email, phone, aka, gt, batch_name,  \
+                     current_chapter, root_chapter, stat, address, photo, custom_member_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?)")
             cur = self.conn.cursor()
-            data = cur.execute(query, (lname.upper(), fname.upper(), mname.upper(), var_date, email, phone, aka.upper(), gt.upper(), batch.upper(),  current_chapter.upper(), root_chapter.upper(), status.upper(), address.upper(), m, mem_id))
+            data = cur.execute(query, (lname.upper(), fname.upper(), mname.upper(), var_date, email, phone, aka.upper(), gt.upper(), \
+                                       batch.upper(),  current_chapter.upper(), root_chapter.upper(), status.upper(), address.upper(), m, mem_id))
 
-            # # Commit the changes
-            # self.conn.commit()
-
-            # # Close the database connection
-            # self.conn.close()
 
             if (data):
                 msg=QMessageBox()
@@ -281,10 +242,12 @@ class Ui_MainWindow(object):
         self.conn = sqlite3.connect("sjmc.db")
         cur = self.conn.cursor()
 
-        sql = "UPDATE sjmc_table SET custom_member_id=?, last_name=?, first_name=?, middle_name=?, T_birth=?, email=?, phone=?, aka=?, gt=?, batch_name=?,  current_chapter=?, root_chapter=?, stat=?, address=?, photo=? WHERE id=?"
+        sql = "UPDATE sjmc_table SET custom_member_id=?, last_name=?, first_name=?, middle_name=?, T_birth=?, email=?, phone=?, aka=?, gt=?, \
+                batch_name=?,  current_chapter=?, root_chapter=?, stat=?, address=?, photo=? WHERE id=?"
 
         try:
-            cur.execute(sql, (mem_id, lname.upper(), fname.upper(), mname.upper(), str(var_date), email, phone, aka.upper(), gt.upper(), batch.upper(),  current.upper(), root.upper(), status.upper(), address.upper(), m, id))
+            cur.execute(sql, (mem_id, lname.upper(), fname.upper(), mname.upper(), str(var_date), email, phone, aka.upper(), gt.upper(), \
+                              batch.upper(),  current.upper(), root.upper(), status.upper(), address.upper(), m, id))
             self.conn.commit()
             self.messageBox("Tau Gamma Phi", "Member Data Updated")
             self.loadData()
@@ -349,6 +312,53 @@ class Ui_MainWindow(object):
             self.save_btn.hide()
             
             
+    # def cell_click(self, columnCount, rowCount):
+    #     """Get specific information when clicking the member ID field"""
+
+    #     try:
+    #         # Connect to SQLite3 database
+    #         conn = sqlite3.connect("sjmc.db")
+    #         cur = conn.cursor()
+
+    #         item = self.tableWidget.selectedItems()
+    #         i = int(item[0].text())
+
+    #         if rowCount != 0:
+    #             return
+    #         else:
+    #             cur.execute("SELECT * FROM sjmc_table WHERE id=?", (i,))
+    #             col = cur.fetchone()
+
+    #             lname, fname, mname, tbirth, email, phone, aka1, gt, batch,  current, root, status, adde, mem_id, pic = col[1:16]
+
+    #             # Set values in the UI elements
+    #             self.id_lineEdit.setText(str(i))
+    #             self.lname_lineEdit.setText(lname)
+    #             self.fname_lineEdit.setText(fname)
+    #             self.mname_lineEdit.setText(mname)
+    #             tbirth_date = QDate.fromString(tbirth, "yyyy-MM-dd")
+    #             self.tbirt_dateEdit.setDate(tbirth_date)
+    #             self.email_lineEdit.setText(email)
+    #             self.phone_lineEdit.setText(phone)
+    #             self.aka_lineEdit.setText(aka1)
+    #             self.gt_lineEdit.setText(gt)
+    #             self.batch_name_lineEdit.setText(batch)
+    #             self.current_chapter_lineEdit.setText(current)
+    #             self.root_chapter_lineEdit.setText(root)
+    #             self.status_comboBox.setCurrentText(status)
+    #             self.address_lineEdit.setText(adde)
+    #             self.mem_id_lineEdit.setText(str(mem_id))
+    #             self.cell_click_disabledTextbox()
+
+    #             # Save the image to a file and display it
+    #             with open('logo/pic.png', 'wb') as f:
+    #                 f.write(pic)
+    #             self.addPic_edit.setText('logo/pic.png')
+    #             self.picture_label.setPixmap(QPixmap("logo/pic.png"))
+              
+    #     except sqlite3.Error as e:
+    #         print("Error Occurred:", e)
+
     def cell_click(self, columnCount, rowCount):
         """Get specific information when clicking the member ID field"""
 
@@ -357,17 +367,26 @@ class Ui_MainWindow(object):
             conn = sqlite3.connect("sjmc.db")
             cur = conn.cursor()
 
-            item = self.tableWidget.selectedItems()
-            i = int(item[0].text())
+            items = self.tableWidget.selectedItems()
+
+            if not items:
+                return  # No item selected, nothing to do
+
+            selected_text = items[0].text()
+
+            if not selected_text.isdigit():
+                # print(f"Invalid value: {selected_text}")
+                return  # Not a valid integer, handle accordingly
+
+            i = int(selected_text)
 
             if rowCount != 0:
                 return
             else:
                 cur.execute("SELECT * FROM sjmc_table WHERE id=?", (i,))
-                # cur.execute ("SELECT * from projecttau3 WHERE member_id=" +str(i))
                 col = cur.fetchone()
 
-                lname, fname, mname, tbirth, email, phone, aka1, gt, batch,  current, root, status, adde, mem_id, pic = col[1:16]
+                lname, fname, mname, tbirth, email, phone, aka1, gt, batch, current, root, status, adde, mem_id, pic = col[1:16]
 
                 # Set values in the UI elements
                 self.id_lineEdit.setText(str(i))
@@ -388,19 +407,17 @@ class Ui_MainWindow(object):
                 self.mem_id_lineEdit.setText(str(mem_id))
                 self.cell_click_disabledTextbox()
 
-
-
-
-
                 # Save the image to a file and display it
                 with open('logo/pic.png', 'wb') as f:
                     f.write(pic)
                 self.addPic_edit.setText('logo/pic.png')
                 self.picture_label.setPixmap(QPixmap("logo/pic.png"))
-              
+
         except sqlite3.Error as e:
             print("Error Occurred:", e)
-
+        finally:
+            # Close the database connection in the finally block
+            conn.close()
 
     
     def cell_click_disabledTextbox(self):
@@ -450,7 +467,6 @@ class Ui_MainWindow(object):
         self.cancel_btn.setEnabled(True)
         self.refresh_btn.setEnabled(False)
         self.add_photo_btn.setEnabled(True)
-       
 
         self.lname_lineEdit.clear()
         self.fname_lineEdit.clear()
@@ -515,8 +531,6 @@ class Ui_MainWindow(object):
     
     def refresh(self):
         """ Clear all the fields"""
-        
-
         self.id_lineEdit.clear()
         self.lname_lineEdit.clear()
         self.fname_lineEdit.clear()
@@ -536,8 +550,6 @@ class Ui_MainWindow(object):
         self.advance_search_lname_lineEdit.clear()
         self.advance_search_fname_lineEdit.clear()
         
-
-
         self.lname_lineEdit.setEnabled(False)
         self.fname_lineEdit.setEnabled(False)
         self.mname_lineEdit.setEnabled(False)
@@ -549,11 +561,9 @@ class Ui_MainWindow(object):
         self.batch_name_lineEdit.setEnabled(False)
         self.current_chapter_lineEdit.setEnabled(False)
         self.root_chapter_lineEdit.setEnabled(False)
-        default_status = "Default Status"  # Change this to your actual default status
+        default_status = "ACTIVE"  # Change this to your actual default status
         self.status_comboBox.setCurrentText(default_status)
         self.address_lineEdit.setEnabled(False)
-
-
 
         self.edit_btn.setEnabled(True)
         self.add_btn.setEnabled(True)
@@ -598,12 +608,10 @@ class Ui_MainWindow(object):
 
             # Use placeholders in the SQL query
             cur.execute("SELECT * FROM sjmc_table WHERE UPPER(last_name) = UPPER(?) OR UPPER(current_chapter) = UPPER(?)", (lname, lname))
-
             result = cur.fetchall()
 
             # counter = len(result)
             # self.total_res_edit.setText(str(counter))
-
             # if counter == 0:
             #     self.messageBox("Information", "No results found.")
             # else:
@@ -658,12 +666,25 @@ class Ui_MainWindow(object):
         MainWindow.setIconSize(QtCore.QSize(30, 30))
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
+
+        #BACKGROUND LABEL
+        self.back_label = QtWidgets.QLabel(self.centralwidget)
+        self.back_label.setGeometry(QtCore.QRect(-10, 0, 1390, 972))
+        self.back_label.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.back_label.setText("")
+        self.back_label.setPixmap(QtGui.QPixmap("logo/back_pic.jpg"))
+        self.back_label.setScaledContents(True)
+        self.back_label.setObjectName("back_label")
        
         ###########----------TABLE-----------########
         self.tableWidget = QtWidgets.QTableWidget(self.centralwidget)
         self.tableWidget.setGeometry(QtCore.QRect(50, 180, 1281, 321))
         self.tableWidget.setObjectName("tableWidget")
         self.tableWidget.setFrameShape(QtWidgets.QFrame.WinPanel)
+        self.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.tableWidget.setStyleSheet("background-color: qlineargradient(spread:pad,\
+            x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 230));")
+
         self.tableWidget.setColumnCount(15)
         self.tableWidget.setRowCount(0)
         item = QtWidgets.QTableWidgetItem()
@@ -701,8 +722,6 @@ class Ui_MainWindow(object):
         self.loadData()
         self.tableWidget.cellClicked.connect(self.cell_click)
      
-        
-
 
         self.addPic_edit = QtWidgets.QLineEdit(self.centralwidget)
         self.addPic_edit.setGeometry(QtCore.QRect(90, 530, 71, 21))
@@ -728,7 +747,6 @@ class Ui_MainWindow(object):
         self.logo_label.setObjectName("logo_label")
         
 
-
         self.title_label = QtWidgets.QLabel(self.centralwidget)
         self.title_label.setGeometry(QtCore.QRect(170, 20, 1161, 101))
         font = QtGui.QFont()
@@ -739,6 +757,7 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.title_label.setFont(font)
         self.title_label.setObjectName("title_label")
+        self.title_label.setStyleSheet("color: rgb(255, 199, 4);")
 
 
         self.photo_frame = QtWidgets.QFrame(self.centralwidget)
@@ -765,20 +784,22 @@ class Ui_MainWindow(object):
         self.id_lineEdit.hide()
 
 
+
         self.mem_id_label = QtWidgets.QLabel(self.centralwidget)
         self.mem_id_label.setGeometry(QtCore.QRect(20, 770, 221, 21))
         self.mem_id_label.setObjectName("mem_id__label")
+        self.mem_id_label.setStyleSheet("color: rgb(255, 199, 4);")
+        
 
         self.mem_id_lineEdit = QtWidgets.QLineEdit(self.centralwidget)
         self.mem_id_lineEdit.setGeometry(QtCore.QRect(20, 790, 221, 21))
         self.mem_id_lineEdit.setObjectName("mem_id_lineEdit")
         font = QtGui.QFont()
+        self.mem_id_lineEdit.setStyleSheet("background-color: rgb(207, 207, 207);color: rgb(24, 24, 24)")
         # font = QFont("Arial", 12)  # Specify the font name and size
         self.mem_id_lineEdit.setFont(font)
         self.mem_id_lineEdit.setEnabled(False)
         
-
-
 
         self.add_photo_btn = QtWidgets.QPushButton(self.centralwidget)
         self.add_photo_btn.setGeometry(QtCore.QRect(20, 820, 111, 41))
@@ -790,6 +811,7 @@ class Ui_MainWindow(object):
         self.col_btn.setGeometry(QtCore.QRect(140, 820, 101, 41))
         self.col_btn.setObjectName("col_btn")
         
+
         self.member_info_frame = QtWidgets.QFrame(self.centralwidget)
         self.member_info_frame.setGeometry(QtCore.QRect(250, 550, 1111, 311))
         self.member_info_frame.setFrameShape(QtWidgets.QFrame.Box)
@@ -799,6 +821,7 @@ class Ui_MainWindow(object):
 
         self.lname_lineEdit = QtWidgets.QLineEdit(self.member_info_frame)
         self.lname_lineEdit.setGeometry(QtCore.QRect(20, 40, 191, 31))
+        self.lname_lineEdit.setStyleSheet("background-color: rgb(207, 207, 207);color: rgb(24, 24, 24)")
         font = QtGui.QFont()
         font.setPointSize(10)
         self.lname_lineEdit.setFont(font)
@@ -808,6 +831,7 @@ class Ui_MainWindow(object):
         self.lname_label = QtWidgets.QLabel(self.member_info_frame)
         self.lname_label.setGeometry(QtCore.QRect(20, 20, 71, 16))
         self.lname_label.setObjectName("lname_label")
+        self.lname_label.setStyleSheet("color: rgb(255, 199, 4);")
 
 
         self.fname_lineEdit = QtWidgets.QLineEdit(self.member_info_frame)
@@ -821,6 +845,7 @@ class Ui_MainWindow(object):
         self.Fname_label = QtWidgets.QLabel(self.member_info_frame)
         self.Fname_label.setGeometry(QtCore.QRect(240, 20, 71, 16))
         self.Fname_label.setObjectName("Fname_label")
+        self.Fname_label.setStyleSheet("color: rgb(255, 199, 4);")
 
 
         self.mname_lineEdit = QtWidgets.QLineEdit(self.member_info_frame)
@@ -834,11 +859,13 @@ class Ui_MainWindow(object):
         self.mname_label = QtWidgets.QLabel(self.member_info_frame)
         self.mname_label.setGeometry(QtCore.QRect(460, 20, 71, 16))
         self.mname_label.setObjectName("mname_label")
+        self.mname_label.setStyleSheet("color: rgb(255, 199, 4);")
 
 
         self.current_chapter_label = QtWidgets.QLabel(self.member_info_frame)
         self.current_chapter_label.setGeometry(QtCore.QRect(680, 20, 101, 16))
         self.current_chapter_label.setObjectName("current_chapter_label")
+        self.current_chapter_label.setStyleSheet("color: rgb(255, 199, 4);")
 
         self.current_chapter_lineEdit = QtWidgets.QLineEdit(self.member_info_frame)
         self.current_chapter_lineEdit.setGeometry(QtCore.QRect(680, 40, 191, 31))
@@ -851,6 +878,8 @@ class Ui_MainWindow(object):
         self.root_chapter_label = QtWidgets.QLabel(self.member_info_frame)
         self.root_chapter_label.setGeometry(QtCore.QRect(900, 20, 101, 16))
         self.root_chapter_label.setObjectName("root_chapter_label")
+        self.root_chapter_label.setStyleSheet("color: rgb(255, 199, 4);")
+        
 
         self.root_chapter_lineEdit = QtWidgets.QLineEdit(self.member_info_frame)
         self.root_chapter_lineEdit.setGeometry(QtCore.QRect(900, 40, 191, 31))
@@ -864,6 +893,7 @@ class Ui_MainWindow(object):
         self.aka_label = QtWidgets.QLabel(self.member_info_frame)
         self.aka_label.setGeometry(QtCore.QRect(20, 90, 101, 16))
         self.aka_label.setObjectName("aka_label")
+        self.aka_label.setStyleSheet("color: rgb(255, 199, 4);")
 
         self.aka_lineEdit = QtWidgets.QLineEdit(self.member_info_frame)
         self.aka_lineEdit.setGeometry(QtCore.QRect(20, 110, 191, 31))
@@ -882,6 +912,7 @@ class Ui_MainWindow(object):
         self.tbirt_label = QtWidgets.QLabel(self.member_info_frame)
         self.tbirt_label.setGeometry(QtCore.QRect(240, 90, 101, 16))
         self.tbirt_label.setObjectName("aka_label_2")
+        self.tbirt_label.setStyleSheet("color: rgb(255, 199, 4);")
 
 
         self.gt_lineEdit = QtWidgets.QLineEdit(self.member_info_frame)
@@ -895,6 +926,7 @@ class Ui_MainWindow(object):
         self.gt_label = QtWidgets.QLabel(self.member_info_frame)
         self.gt_label.setGeometry(QtCore.QRect(460, 90, 101, 16))
         self.gt_label.setObjectName("gt_label")
+        self.gt_label.setStyleSheet("color: rgb(255, 199, 4);")
 
 
         self.phone_lineEdit = QtWidgets.QLineEdit(self.member_info_frame)
@@ -908,11 +940,13 @@ class Ui_MainWindow(object):
         self.phone_label = QtWidgets.QLabel(self.member_info_frame)
         self.phone_label.setGeometry(QtCore.QRect(20, 160, 101, 16))
         self.phone_label.setObjectName("phone_label")
+        self.phone_label.setStyleSheet("color: rgb(255, 199, 4);")
 
 
         self.email_label = QtWidgets.QLabel(self.member_info_frame)
         self.email_label.setGeometry(QtCore.QRect(240, 160, 101, 16))
         self.email_label.setObjectName("email_label")
+        self.email_label.setStyleSheet("color: rgb(255, 199, 4);")
 
         self.email_lineEdit = QtWidgets.QLineEdit(self.member_info_frame)
         self.email_lineEdit.setGeometry(QtCore.QRect(240, 180, 191, 31))
@@ -926,6 +960,7 @@ class Ui_MainWindow(object):
         self.address_label = QtWidgets.QLabel(self.member_info_frame)
         self.address_label.setGeometry(QtCore.QRect(20, 230, 101, 16))
         self.address_label.setObjectName("address_label")
+        self.address_label.setStyleSheet("color: rgb(255, 199, 4);")
 
         self.address_lineEdit = QtWidgets.QLineEdit(self.member_info_frame)
         self.address_lineEdit.setGeometry(QtCore.QRect(20, 250, 631, 31))
@@ -939,6 +974,7 @@ class Ui_MainWindow(object):
         self.batch_name_label = QtWidgets.QLabel(self.member_info_frame)
         self.batch_name_label.setGeometry(QtCore.QRect(460, 160, 101, 16))
         self.batch_name_label.setObjectName("batch_name_label")
+        self.batch_name_label.setStyleSheet("color: rgb(255, 199, 4);")
 
         self.batch_name_lineEdit = QtWidgets.QLineEdit(self.member_info_frame)
         self.batch_name_lineEdit.setGeometry(QtCore.QRect(460, 180, 191, 31))
@@ -960,11 +996,13 @@ class Ui_MainWindow(object):
         self.search_radioButton.setGeometry(QtCore.QRect(210, 10, 71, 17))
         self.search_radioButton.setObjectName("search_radioButton")
         self.search_radioButton.toggled.connect(self.search_radio)
+        self.search_radioButton.setStyleSheet("color: rgb(255, 199, 4);")
 
         self.advance_radioButton = QtWidgets.QRadioButton(self.search_frame)
         self.advance_radioButton.setGeometry(QtCore.QRect(290, 10, 111, 20))
         self.advance_radioButton.setObjectName("advance_radioButton")
         self.advance_radioButton.toggled.connect(self.advance_radio)
+        self.advance_radioButton.setStyleSheet("color: rgb(255, 199, 4);")
 
         self.search_btn = QtWidgets.QPushButton(self.search_frame)
         self.search_btn.setGeometry(QtCore.QRect(10, 10, 191, 31))
@@ -993,15 +1031,18 @@ class Ui_MainWindow(object):
         self.advance_search_fname_lineEdit.setGeometry(QtCore.QRect(210, 50, 191, 31))
         self.advance_search_fname_lineEdit.setObjectName("advance_search_fname_lineEdit")
         self.advance_search_fname_lineEdit.hide()
+        
 
 
         self.status_label = QtWidgets.QLabel(self.member_info_frame)
         self.status_label.setGeometry(QtCore.QRect(680, 230, 101, 16))
         self.status_label.setObjectName("status_label")
+        self.status_label.setStyleSheet("color: rgb(255, 199, 4);")
 
         self.status_comboBox = QtWidgets.QComboBox(self.member_info_frame)
         self.status_comboBox.setGeometry(QtCore.QRect(680, 250, 191, 31))
         self.status_comboBox.setObjectName("status_comboBox")
+        self.status_comboBox.addItem("")
         self.status_comboBox.addItem("")
         self.status_comboBox.addItem("")
         self.status_comboBox.setEnabled(False)
@@ -1143,6 +1184,7 @@ class Ui_MainWindow(object):
         self.status_label.setText(_translate("MainWindow", "STATUS"))
         self.status_comboBox.setItemText(0, _translate("MainWindow", "ACTIVE"))
         self.status_comboBox.setItemText(1, _translate("MainWindow", "INACTIVE"))
+        self.status_comboBox.setItemText(2, _translate("MainWindow", "EXPELLED"))
         self.add_btn.setText(_translate("MainWindow", "ADD NEW"))
         self.save_btn.setText(_translate("MainWindow", "SAVE"))
         self.update_btn.setText(_translate("MainWindow", "UPDATE"))
