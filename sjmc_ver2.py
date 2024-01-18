@@ -468,10 +468,24 @@ class Ui_MainWindow(object):
         self.refresh_btn.setEnabled(False)
         self.add_photo_btn.setEnabled(True)
 
+        self.lname_lineEdit.setStyleSheet("background-color: rgb(24, 24, 24);color: rgb(6, 254, 192)")
+        self.fname_lineEdit.setStyleSheet("background-color: rgb(24, 24, 24);color: rgb(6, 254, 192)")
+        self.mname_lineEdit.setStyleSheet("background-color: rgb(24, 24, 24);color: rgb(6, 254, 192)")
+        self.tbirt_dateEdit.setStyleSheet("background-color: rgb(24, 24, 24);color: rgb(6, 254, 192)")
+        self.email_lineEdit.setStyleSheet("background-color: rgb(24, 24, 24);color: rgb(6, 254, 192)")
+        self.phone_lineEdit.setStyleSheet("background-color: rgb(24, 24, 24);color: rgb(6, 254, 192)")
+        self.aka_lineEdit.setStyleSheet("background-color: rgb(24, 24, 24);color: rgb(6, 254, 192)")
+        self.gt_lineEdit.setStyleSheet("background-color: rgb(24, 24, 24);color: rgb(6, 254, 192)")
+        self.batch_name_lineEdit.setStyleSheet("background-color: rgb(24, 24, 24);color: rgb(6, 254, 192)")
+        self.current_chapter_lineEdit.setStyleSheet("background-color: rgb(24, 24, 24);color: rgb(6, 254, 192)")
+        self.root_chapter_lineEdit.setStyleSheet("background-color: rgb(24, 24, 24);color: rgb(6, 254, 192)")
+        self.status_comboBox.setStyleSheet("background-color: rgb(24, 24, 24);color: rgb(6, 254, 192)")
+        self.address_lineEdit.setStyleSheet("background-color: rgb(24, 24, 24);color: rgb(6, 254, 192)")
+
         self.lname_lineEdit.clear()
         self.fname_lineEdit.clear()
         self.mname_lineEdit.clear()
-        self.tbirt_dateEdit.clear()
+        self.tbirt_dateEdit.setDate(QDate.currentDate())
         self.email_lineEdit.clear()
         self.phone_lineEdit.clear()
         self.aka_lineEdit.clear()
@@ -512,10 +526,24 @@ class Ui_MainWindow(object):
         self.edit_btn.setEnabled(True)
         self.add_photo_btn.setEnabled(False)
 
+        self.lname_lineEdit.setStyleSheet("background-color: rgb(207, 207, 207);color: rgb(24, 24, 24)")
+        self.fname_lineEdit.setStyleSheet("background-color: rgb(207, 207, 207);color: rgb(24, 24, 24)")
+        self.mname_lineEdit.setStyleSheet("background-color: rgb(207, 207, 207);color: rgb(24, 24, 24)")
+        self.tbirt_dateEdit.setStyleSheet("background-color: rgb(207, 207, 207);color: rgb(24, 24, 24)")
+        self.email_lineEdit.setStyleSheet("background-color: rgb(207, 207, 207);color: rgb(24, 24, 24)")
+        self.phone_lineEdit.setStyleSheet("background-color: rgb(207, 207, 207);color: rgb(24, 24, 24)")
+        self.aka_lineEdit.setStyleSheet("background-color: rgb(207, 207, 207);color: rgb(24, 24, 24)")
+        self.gt_lineEdit.setStyleSheet("background-color: rgb(207, 207, 207);color: rgb(24, 24, 24)")
+        self.batch_name_lineEdit.setStyleSheet("background-color: rgb(207, 207, 207);color: rgb(24, 24, 24)")
+        self.current_chapter_lineEdit.setStyleSheet("background-color: rgb(207, 207, 207);color: rgb(24, 24, 24)")
+        self.root_chapter_lineEdit.setStyleSheet("background-color: rgb(207, 207, 207);color: rgb(24, 24, 24)")
+        self.status_comboBox.setStyleSheet("background-color: rgb(207, 207, 207);color: rgb(24, 24, 24)")
+        self.address_lineEdit.setStyleSheet("background-color: rgb(207, 207, 207);color: rgb(24, 24, 24)")
+
         self.lname_lineEdit.clear()
         self.fname_lineEdit.clear()
         self.mname_lineEdit.clear()
-        self.tbirt_dateEdit.clear()
+        self.tbirt_dateEdit.setDate(QDate.currentDate())
         self.email_lineEdit.clear()
         self.phone_lineEdit.clear()
         self.aka_lineEdit.clear()
@@ -535,7 +563,7 @@ class Ui_MainWindow(object):
         self.lname_lineEdit.clear()
         self.fname_lineEdit.clear()
         self.mname_lineEdit.clear()
-        self.tbirt_dateEdit.clear()
+        self.tbirt_dateEdit.setDate(QDate.currentDate())
         self.email_lineEdit.clear()
         self.phone_lineEdit.clear()
         self.aka_lineEdit.clear()
@@ -669,7 +697,7 @@ class Ui_MainWindow(object):
 
         #BACKGROUND LABEL
         self.back_label = QtWidgets.QLabel(self.centralwidget)
-        self.back_label.setGeometry(QtCore.QRect(-10, 0, 1390, 972))
+        self.back_label.setGeometry(QtCore.QRect(-10, 0, 1400, 980))
         self.back_label.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.back_label.setText("")
         self.back_label.setPixmap(QtGui.QPixmap("logo/back_pic.jpg"))
@@ -762,10 +790,10 @@ class Ui_MainWindow(object):
 
         self.photo_frame = QtWidgets.QFrame(self.centralwidget)
         self.photo_frame.setGeometry(QtCore.QRect(20, 550, 221, 221))
-        self.photo_frame.setStyleSheet("rgb (0, 170, 255)")
         self.photo_frame.setFrameShape(QtWidgets.QFrame.WinPanel)
         self.photo_frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.photo_frame.setObjectName("photo_frame")
+        
 
 
         self.picture_label = QtWidgets.QLabel(self.photo_frame)
@@ -803,12 +831,18 @@ class Ui_MainWindow(object):
 
         self.add_photo_btn = QtWidgets.QPushButton(self.centralwidget)
         self.add_photo_btn.setGeometry(QtCore.QRect(20, 820, 111, 41))
+        self.add_photo_btn.setStyleSheet("background-color:\
+        qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0),\
+        stop:1 rgba(255, 255, 255, 255));")
         self.add_photo_btn.setObjectName("add_photo_btn")
         self.add_photo_btn.clicked.connect(self.browse_image)
         self.add_photo_btn.setEnabled(False)
-
+        
         self.col_btn = QtWidgets.QPushButton(self.centralwidget)
         self.col_btn.setGeometry(QtCore.QRect(140, 820, 101, 41))
+        self.col_btn.setStyleSheet("background-color:\
+        qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0),\
+        stop:1 rgba(255, 255, 255, 255));")
         self.col_btn.setObjectName("col_btn")
         
 
@@ -821,8 +855,10 @@ class Ui_MainWindow(object):
 
         self.lname_lineEdit = QtWidgets.QLineEdit(self.member_info_frame)
         self.lname_lineEdit.setGeometry(QtCore.QRect(20, 40, 191, 31))
-        self.lname_lineEdit.setStyleSheet("background-color: rgb(207, 207, 207);color: rgb(24, 24, 24)")
-        font = QtGui.QFont()
+        # self.lname_lineEdit.setStyleSheet("background-color:\
+        # qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0),\
+        # stop:1 rgba(255, 255, 255, 255));")
+    
         font.setPointSize(10)
         self.lname_lineEdit.setFont(font)
         self.lname_lineEdit.setObjectName("lineEdit")
@@ -1006,11 +1042,17 @@ class Ui_MainWindow(object):
 
         self.search_btn = QtWidgets.QPushButton(self.search_frame)
         self.search_btn.setGeometry(QtCore.QRect(10, 10, 191, 31))
+        self.search_btn.setStyleSheet("background-color:\
+        qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0),\
+        stop:1 rgba(255, 255, 255, 255));")
         self.search_btn.setObjectName("search_btn")
         self.search_btn.clicked.connect(self.search)
 
         self.advance_search_btn = QtWidgets.QPushButton(self.search_frame)
         self.advance_search_btn.setGeometry(QtCore.QRect(10, 10, 191, 31))
+        self.advance_search_btn.setStyleSheet("background-color:\
+        qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0),\
+        stop:1 rgba(255, 255, 255, 255));")
         self.advance_search_btn.setObjectName("advance_search_btn")
         self.advance_search_btn.hide()
         self.advance_search_btn.clicked.connect(self.advance_search)
@@ -1049,54 +1091,95 @@ class Ui_MainWindow(object):
 
 
         self.voluntas_label = QtWidgets.QLabel(self.member_info_frame)
-        self.voluntas_label.setGeometry(QtCore.QRect(880, 240, 231, 41))
+        self.voluntas_label.setGeometry(QtCore.QRect(880, 205, 231, 121))
         self.voluntas_label.setText("")
-        self.voluntas_label.setPixmap(QtGui.QPixmap("logo/voluntas.png"))
+        self.voluntas_label.setPixmap(QtGui.QPixmap("logo/vol.png"))
         self.voluntas_label.setScaledContents(True)
         self.voluntas_label.setObjectName("label")
 
 
         self.add_btn = QtWidgets.QPushButton(self.centralwidget)
         self.add_btn.setGeometry(QtCore.QRect(20, 890, 191, 41))
+        self.add_btn.setStyleSheet("background-color:\
+        qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0),\
+        stop:1 rgba(255, 255, 255, 255));")
         self.add_btn.setObjectName("add_btn")
         self.add_btn.clicked.connect(self.add)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("logo/reg.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.add_btn.setIcon(icon)
 
         self.save_btn = QtWidgets.QPushButton(self.centralwidget)
         self.save_btn.setGeometry(QtCore.QRect(240, 890, 201, 41))
+        self.save_btn.setStyleSheet("background-color:\
+        qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0),\
+        stop:1 rgba(255, 255, 255, 255));")
         self.save_btn.setObjectName("save_btn")
         self.save_btn.clicked.connect(self.insert_data)
         self.save_btn.setEnabled(False)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("logo/save.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.save_btn.setIcon(icon)
       
 
         self.update_btn = QtWidgets.QPushButton(self.centralwidget)
         self.update_btn.setGeometry(QtCore.QRect(240, 890, 201, 41))
+        self.update_btn.setStyleSheet("background-color:\
+        qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0),\
+        stop:1 rgba(255, 255, 255, 255));")
         self.update_btn.setObjectName("update_btn")
         self.update_btn.clicked.connect(self.update)
         self.update_btn.hide()
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("logo/update.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.update_btn.setIcon(icon)
         
 
         self.cancel_btn = QtWidgets.QPushButton(self.centralwidget)
         self.cancel_btn.setGeometry(QtCore.QRect(470, 890, 201, 41))
+        self.cancel_btn.setStyleSheet("background-color:\
+        qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0),\
+        stop:1 rgba(255, 255, 255, 255));")
         self.cancel_btn.setObjectName("cancel_btn")
         self.cancel_btn.clicked.connect(self.cancel)
         self.cancel_btn.setEnabled(False)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("logo/cancel.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.cancel_btn.setIcon(icon)
 
         self.edit_btn = QtWidgets.QPushButton(self.centralwidget)
         self.edit_btn.setGeometry(QtCore.QRect(700, 890, 201, 41))
+        self.edit_btn.setStyleSheet("background-color:\
+        qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0),\
+        stop:1 rgba(255, 255, 255, 255));")
         self.edit_btn.setObjectName("edit_btn")
         self.edit_btn.clicked.connect(self.edit)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("logo/edit.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.edit_btn.setIcon(icon)
 
         self.refresh_btn = QtWidgets.QPushButton(self.centralwidget)
         self.refresh_btn.setGeometry(QtCore.QRect(930, 890, 201, 41))
+        self.refresh_btn.setStyleSheet("background-color:\
+        qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0),\
+        stop:1 rgba(255, 255, 255, 255));")
         self.refresh_btn.setObjectName("refresh_btn")
         self.refresh_btn.clicked.connect(self.refresh)
-     
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("logo/refresh.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.refresh_btn.setIcon(icon)
         
 
         self.exit_btn = QtWidgets.QPushButton(self.centralwidget)
         self.exit_btn.setGeometry(QtCore.QRect(1160, 890, 201, 41))
+        self.exit_btn.setStyleSheet("background-color:\
+        qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0),\
+        stop:1 rgba(255, 255, 255, 255));")
         self.exit_btn.setObjectName("exit_btn")
         self.exit_btn.clicked.connect(self.exit_app)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("logo/exit.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.exit_btn.setIcon(icon)
 
 
         self.member_info_frame.raise_()
@@ -1119,9 +1202,9 @@ class Ui_MainWindow(object):
 
 
         MainWindow.setCentralWidget(self.centralwidget)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
-        self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
+        # self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        # self.statusbar.setObjectName("statusbar")
+        # MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -1180,18 +1263,21 @@ class Ui_MainWindow(object):
         self.search_radioButton.setText(_translate("MainWindow", "SEARCH"))
         self.advance_radioButton.setText(_translate("MainWindow", "ADVANCE SEARCH"))
         self.search_btn.setText(_translate("MainWindow", "SEARCH"))
+        self.search_lineEdit.setPlaceholderText(_translate("MainWindow", "Enter Last Name or Chapter"))
+        self.advance_search_lname_lineEdit.setPlaceholderText(_translate("MainWindow", "Enter Last Name"))
+        self.advance_search_fname_lineEdit.setPlaceholderText(_translate("MainWindow", "Enter First Name"))
         self.advance_search_btn.setText(_translate("MainWindow", "ADVANCE SEARCH"))
         self.status_label.setText(_translate("MainWindow", "STATUS"))
         self.status_comboBox.setItemText(0, _translate("MainWindow", "ACTIVE"))
         self.status_comboBox.setItemText(1, _translate("MainWindow", "INACTIVE"))
         self.status_comboBox.setItemText(2, _translate("MainWindow", "EXPELLED"))
-        self.add_btn.setText(_translate("MainWindow", "ADD NEW"))
-        self.save_btn.setText(_translate("MainWindow", "SAVE"))
-        self.update_btn.setText(_translate("MainWindow", "UPDATE"))
-        self.cancel_btn.setText(_translate("MainWindow", "CANCEL"))
-        self.edit_btn.setText(_translate("MainWindow", "EDIT"))
-        self.refresh_btn.setText(_translate("MainWindow", "REFRESH"))
-        self.exit_btn.setText(_translate("MainWindow", "EXIT"))
+        self.add_btn.setText(_translate("MainWindow", "  ADD NEW"))
+        self.save_btn.setText(_translate("MainWindow", "  SAVE"))
+        self.update_btn.setText(_translate("MainWindow", "  UPDATE"))
+        self.cancel_btn.setText(_translate("MainWindow", "  CANCEL"))
+        self.edit_btn.setText(_translate("MainWindow", "  EDIT"))
+        self.refresh_btn.setText(_translate("MainWindow", "  REFRESH"))
+        self.exit_btn.setText(_translate("MainWindow", "  EXIT"))
 
 
    
