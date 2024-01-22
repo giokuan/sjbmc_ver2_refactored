@@ -7,13 +7,25 @@ import os
 from PyQt5.QtGui import QPixmap, QFont
 from datetime import datetime
 import random
+# from stat_chart import MyMainWindow
+from statistics_chart import Ui_MainWindowStat
 
 
 
 class Ui_MainWindow(object):
  
 
-       
+    def open_window(self):
+        """ Open the cert form window"""
+        self.window = QtWidgets.QMainWindow()
+        self.ui = Ui_MainWindowStat()
+        self.ui.setupUi(self.window)
+        self.window.show()
+  
+
+        # chart_window = MyMainWindow(self)
+        # chart_window.setGeometry(200, 200, 800, 600)
+        # chart_window.exec_()
    
     # def drop_database(database_file):
     #     try:
@@ -252,6 +264,7 @@ class Ui_MainWindow(object):
             self.messageBox("Tau Gamma Phi", "Member Data Updated")
             self.loadData()
             self.cell_click_disabledTextbox()
+            self.update_btn.hide()
         except sqlite3.Error as e:
             self.messageBox("Error", f"An error occurred: {e}")
         finally:
@@ -310,54 +323,22 @@ class Ui_MainWindow(object):
             self.add_photo_btn.setEnabled(True)
             self.update_btn.show()
             self.save_btn.hide()
+
+            self.lname_lineEdit.setStyleSheet("background-color: rgb(24, 24, 24);color: rgb(6, 254, 192)")
+            self.fname_lineEdit.setStyleSheet("background-color: rgb(24, 24, 24);color: rgb(6, 254, 192)")
+            self.mname_lineEdit.setStyleSheet("background-color: rgb(24, 24, 24);color: rgb(6, 254, 192)")
+            self.tbirt_dateEdit.setStyleSheet("background-color: rgb(24, 24, 24);color: rgb(6, 254, 192)")
+            self.email_lineEdit.setStyleSheet("background-color: rgb(24, 24, 24);color: rgb(6, 254, 192)")
+            self.phone_lineEdit.setStyleSheet("background-color: rgb(24, 24, 24);color: rgb(6, 254, 192)")
+            self.aka_lineEdit.setStyleSheet("background-color: rgb(24, 24, 24);color: rgb(6, 254, 192)")
+            self.gt_lineEdit.setStyleSheet("background-color: rgb(24, 24, 24);color: rgb(6, 254, 192)")
+            self.batch_name_lineEdit.setStyleSheet("background-color: rgb(24, 24, 24);color: rgb(6, 254, 192)")
+            self.current_chapter_lineEdit.setStyleSheet("background-color: rgb(24, 24, 24);color: rgb(6, 254, 192)")
+            self.root_chapter_lineEdit.setStyleSheet("background-color: rgb(24, 24, 24);color: rgb(6, 254, 192)")
+            self.status_comboBox.setStyleSheet("background-color: rgb(24, 24, 24);color: rgb(6, 254, 192)")
+            self.address_lineEdit.setStyleSheet("background-color: rgb(24, 24, 24);color: rgb(6, 254, 192)")
             
-            
-    # def cell_click(self, columnCount, rowCount):
-    #     """Get specific information when clicking the member ID field"""
-
-    #     try:
-    #         # Connect to SQLite3 database
-    #         conn = sqlite3.connect("sjmc.db")
-    #         cur = conn.cursor()
-
-    #         item = self.tableWidget.selectedItems()
-    #         i = int(item[0].text())
-
-    #         if rowCount != 0:
-    #             return
-    #         else:
-    #             cur.execute("SELECT * FROM sjmc_table WHERE id=?", (i,))
-    #             col = cur.fetchone()
-
-    #             lname, fname, mname, tbirth, email, phone, aka1, gt, batch,  current, root, status, adde, mem_id, pic = col[1:16]
-
-    #             # Set values in the UI elements
-    #             self.id_lineEdit.setText(str(i))
-    #             self.lname_lineEdit.setText(lname)
-    #             self.fname_lineEdit.setText(fname)
-    #             self.mname_lineEdit.setText(mname)
-    #             tbirth_date = QDate.fromString(tbirth, "yyyy-MM-dd")
-    #             self.tbirt_dateEdit.setDate(tbirth_date)
-    #             self.email_lineEdit.setText(email)
-    #             self.phone_lineEdit.setText(phone)
-    #             self.aka_lineEdit.setText(aka1)
-    #             self.gt_lineEdit.setText(gt)
-    #             self.batch_name_lineEdit.setText(batch)
-    #             self.current_chapter_lineEdit.setText(current)
-    #             self.root_chapter_lineEdit.setText(root)
-    #             self.status_comboBox.setCurrentText(status)
-    #             self.address_lineEdit.setText(adde)
-    #             self.mem_id_lineEdit.setText(str(mem_id))
-    #             self.cell_click_disabledTextbox()
-
-    #             # Save the image to a file and display it
-    #             with open('logo/pic.png', 'wb') as f:
-    #                 f.write(pic)
-    #             self.addPic_edit.setText('logo/pic.png')
-    #             self.picture_label.setPixmap(QPixmap("logo/pic.png"))
-              
-    #     except sqlite3.Error as e:
-    #         print("Error Occurred:", e)
+        
 
     def cell_click(self, columnCount, rowCount):
         """Get specific information when clicking the member ID field"""
@@ -427,7 +408,7 @@ class Ui_MainWindow(object):
         self.cancel_btn.setEnabled(False)
         self.refresh_btn.setEnabled(True)
         self.edit_btn.setEnabled(True)
-        # self.update_btn.hide()
+        self.update_btn.hide()
         self.save_btn.show()
 
         self.lname_lineEdit.setEnabled(False)
@@ -710,8 +691,9 @@ class Ui_MainWindow(object):
         self.tableWidget.setObjectName("tableWidget")
         self.tableWidget.setFrameShape(QtWidgets.QFrame.WinPanel)
         self.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-        self.tableWidget.setStyleSheet("background-color: qlineargradient(spread:pad,\
-            x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 230));")
+        # self.tableWidget.setStyleSheet("background-color: qlineargradient(spread:pad,\
+        #     x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 230));")
+        self.tableWidget.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));")
 
         self.tableWidget.setColumnCount(15)
         self.tableWidget.setRowCount(0)
@@ -863,11 +845,13 @@ class Ui_MainWindow(object):
         self.lname_lineEdit.setFont(font)
         self.lname_lineEdit.setObjectName("lineEdit")
         self.lname_lineEdit.setEnabled(False)
+        self.lname_lineEdit.setStyleSheet("color: rgb(0, 0, 0);")
 
         self.lname_label = QtWidgets.QLabel(self.member_info_frame)
         self.lname_label.setGeometry(QtCore.QRect(20, 20, 71, 16))
         self.lname_label.setObjectName("lname_label")
         self.lname_label.setStyleSheet("color: rgb(255, 199, 4);")
+
 
 
         self.fname_lineEdit = QtWidgets.QLineEdit(self.member_info_frame)
@@ -877,6 +861,7 @@ class Ui_MainWindow(object):
         self.fname_lineEdit.setFont(font)
         self.fname_lineEdit.setObjectName("fname_lineEdit")
         self.fname_lineEdit.setEnabled(False)
+        self.fname_lineEdit.setStyleSheet("color: rgb(0, 0, 0);")
 
         self.Fname_label = QtWidgets.QLabel(self.member_info_frame)
         self.Fname_label.setGeometry(QtCore.QRect(240, 20, 71, 16))
@@ -891,6 +876,7 @@ class Ui_MainWindow(object):
         self.mname_lineEdit.setFont(font)
         self.mname_lineEdit.setObjectName("mname_lineEdit")
         self.mname_lineEdit.setEnabled(False)
+        self.mname_lineEdit.setStyleSheet("color: rgb(0, 0, 0);")
 
         self.mname_label = QtWidgets.QLabel(self.member_info_frame)
         self.mname_label.setGeometry(QtCore.QRect(460, 20, 71, 16))
@@ -910,6 +896,7 @@ class Ui_MainWindow(object):
         self.current_chapter_lineEdit.setFont(font)
         self.current_chapter_lineEdit.setObjectName("current_chapter_lineEdit")
         self.current_chapter_lineEdit.setEnabled(False)
+        self.current_chapter_lineEdit.setStyleSheet("color: rgb(0, 0, 0);")
 
         self.root_chapter_label = QtWidgets.QLabel(self.member_info_frame)
         self.root_chapter_label.setGeometry(QtCore.QRect(900, 20, 101, 16))
@@ -924,6 +911,7 @@ class Ui_MainWindow(object):
         self.root_chapter_lineEdit.setFont(font)
         self.root_chapter_lineEdit.setObjectName("root_chapter_lineEdit")
         self.root_chapter_lineEdit.setEnabled(False)
+        self.root_chapter_lineEdit.setStyleSheet("color: rgb(0, 0, 0);")
 
 
         self.aka_label = QtWidgets.QLabel(self.member_info_frame)
@@ -938,6 +926,7 @@ class Ui_MainWindow(object):
         self.aka_lineEdit.setFont(font)
         self.aka_lineEdit.setObjectName("aka_lineEdit")
         self.aka_lineEdit.setEnabled(False)
+        self.aka_lineEdit.setStyleSheet("color: rgb(0, 0, 0);")
 
 
         self.tbirt_dateEdit = QtWidgets.QDateEdit(self.member_info_frame)
@@ -945,6 +934,7 @@ class Ui_MainWindow(object):
         self.tbirt_dateEdit.setObjectName("tbirt_dateEdit")
         self.tbirt_dateEdit.setEnabled(False)
         self.tbirt_dateEdit.setDate(QDate.currentDate())
+        self.tbirt_dateEdit.setStyleSheet("color: rgb(0, 0, 0);")
         self.tbirt_label = QtWidgets.QLabel(self.member_info_frame)
         self.tbirt_label.setGeometry(QtCore.QRect(240, 90, 101, 16))
         self.tbirt_label.setObjectName("aka_label_2")
@@ -958,6 +948,7 @@ class Ui_MainWindow(object):
         self.gt_lineEdit.setFont(font)
         self.gt_lineEdit.setObjectName("gt_lineEdit")
         self.gt_lineEdit.setEnabled(False)
+        self.gt_lineEdit.setStyleSheet("color: rgb(0, 0, 0);")
 
         self.gt_label = QtWidgets.QLabel(self.member_info_frame)
         self.gt_label.setGeometry(QtCore.QRect(460, 90, 101, 16))
@@ -972,6 +963,7 @@ class Ui_MainWindow(object):
         self.phone_lineEdit.setFont(font)
         self.phone_lineEdit.setObjectName("phone_lineEdit")
         self.phone_lineEdit.setEnabled(False)
+        self.phone_lineEdit.setStyleSheet("color: rgb(0, 0, 0);")
 
         self.phone_label = QtWidgets.QLabel(self.member_info_frame)
         self.phone_label.setGeometry(QtCore.QRect(20, 160, 101, 16))
@@ -991,6 +983,7 @@ class Ui_MainWindow(object):
         self.email_lineEdit.setFont(font)
         self.email_lineEdit.setObjectName("email_lineEdit")
         self.email_lineEdit.setEnabled(False)
+        self.email_lineEdit.setStyleSheet("color: rgb(0, 0, 0);")
 
 
         self.address_label = QtWidgets.QLabel(self.member_info_frame)
@@ -1005,6 +998,7 @@ class Ui_MainWindow(object):
         self.address_lineEdit.setFont(font)
         self.address_lineEdit.setObjectName("address_lineEdit")
         self.address_lineEdit.setEnabled(False)
+        self.address_lineEdit.setStyleSheet("color: rgb(0, 0, 0);")
 
 
         self.batch_name_label = QtWidgets.QLabel(self.member_info_frame)
@@ -1019,6 +1013,7 @@ class Ui_MainWindow(object):
         self.batch_name_lineEdit.setFont(font)
         self.batch_name_lineEdit.setObjectName("batch_name_lineEdit")
         self.batch_name_lineEdit.setEnabled(False)
+        self.batch_name_lineEdit.setStyleSheet("color: rgb(0, 0, 0);")
 
 
         self.search_frame = QtWidgets.QFrame(self.member_info_frame)
@@ -1075,7 +1070,6 @@ class Ui_MainWindow(object):
         self.advance_search_fname_lineEdit.hide()
         
 
-
         self.status_label = QtWidgets.QLabel(self.member_info_frame)
         self.status_label.setGeometry(QtCore.QRect(680, 230, 101, 16))
         self.status_label.setObjectName("status_label")
@@ -1088,6 +1082,7 @@ class Ui_MainWindow(object):
         self.status_comboBox.addItem("")
         self.status_comboBox.addItem("")
         self.status_comboBox.setEnabled(False)
+        self.status_comboBox.setStyleSheet("color: rgb(0, 0, 0);")
 
 
         self.voluntas_label = QtWidgets.QLabel(self.member_info_frame)
@@ -1098,8 +1093,17 @@ class Ui_MainWindow(object):
         self.voluntas_label.setObjectName("label")
 
 
+        self.statistics_btn = QtWidgets.QPushButton(self.centralwidget)
+        self.statistics_btn.setGeometry(QtCore.QRect(20, 890, 221, 41))
+        self.statistics_btn.setStyleSheet("background-color:\
+        qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0),\
+        stop:1 rgba(255, 255, 255, 255));")
+        self.statistics_btn.setObjectName("statistics_btn_btn")
+        self.statistics_btn.clicked.connect(self.open_window)
+
+
         self.add_btn = QtWidgets.QPushButton(self.centralwidget)
-        self.add_btn.setGeometry(QtCore.QRect(20, 890, 191, 41))
+        self.add_btn.setGeometry(QtCore.QRect(310, 890, 151, 41))
         self.add_btn.setStyleSheet("background-color:\
         qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0),\
         stop:1 rgba(255, 255, 255, 255));")
@@ -1110,7 +1114,7 @@ class Ui_MainWindow(object):
         self.add_btn.setIcon(icon)
 
         self.save_btn = QtWidgets.QPushButton(self.centralwidget)
-        self.save_btn.setGeometry(QtCore.QRect(240, 890, 201, 41))
+        self.save_btn.setGeometry(QtCore.QRect(490, 890, 151, 41))
         self.save_btn.setStyleSheet("background-color:\
         qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0),\
         stop:1 rgba(255, 255, 255, 255));")
@@ -1123,7 +1127,7 @@ class Ui_MainWindow(object):
       
 
         self.update_btn = QtWidgets.QPushButton(self.centralwidget)
-        self.update_btn.setGeometry(QtCore.QRect(240, 890, 201, 41))
+        self.update_btn.setGeometry(QtCore.QRect(490, 890, 151, 41))
         self.update_btn.setStyleSheet("background-color:\
         qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0),\
         stop:1 rgba(255, 255, 255, 255));")
@@ -1136,7 +1140,7 @@ class Ui_MainWindow(object):
         
 
         self.cancel_btn = QtWidgets.QPushButton(self.centralwidget)
-        self.cancel_btn.setGeometry(QtCore.QRect(470, 890, 201, 41))
+        self.cancel_btn.setGeometry(QtCore.QRect(670, 890, 151, 41))
         self.cancel_btn.setStyleSheet("background-color:\
         qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0),\
         stop:1 rgba(255, 255, 255, 255));")
@@ -1148,7 +1152,7 @@ class Ui_MainWindow(object):
         self.cancel_btn.setIcon(icon)
 
         self.edit_btn = QtWidgets.QPushButton(self.centralwidget)
-        self.edit_btn.setGeometry(QtCore.QRect(700, 890, 201, 41))
+        self.edit_btn.setGeometry(QtCore.QRect(850, 890, 151, 41))
         self.edit_btn.setStyleSheet("background-color:\
         qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0),\
         stop:1 rgba(255, 255, 255, 255));")
@@ -1159,7 +1163,7 @@ class Ui_MainWindow(object):
         self.edit_btn.setIcon(icon)
 
         self.refresh_btn = QtWidgets.QPushButton(self.centralwidget)
-        self.refresh_btn.setGeometry(QtCore.QRect(930, 890, 201, 41))
+        self.refresh_btn.setGeometry(QtCore.QRect(1030, 890, 151, 41))
         self.refresh_btn.setStyleSheet("background-color:\
         qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0),\
         stop:1 rgba(255, 255, 255, 255));")
@@ -1171,7 +1175,7 @@ class Ui_MainWindow(object):
         
 
         self.exit_btn = QtWidgets.QPushButton(self.centralwidget)
-        self.exit_btn.setGeometry(QtCore.QRect(1160, 890, 201, 41))
+        self.exit_btn.setGeometry(QtCore.QRect(1210, 890, 151, 41))
         self.exit_btn.setStyleSheet("background-color:\
         qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0),\
         stop:1 rgba(255, 255, 255, 255));")
@@ -1212,8 +1216,6 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "SJBMC DATABASE MANAGEMENT SYSTEM"))
-        # item = self.tableWidget.horizontalHeaderItem(0)
-        # item.setText(_translate("MainWindow", "PHOTO"))
         item = self.tableWidget.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "FIELD ID"))
         item = self.tableWidget.horizontalHeaderItem(1)
@@ -1235,7 +1237,7 @@ class Ui_MainWindow(object):
         item = self.tableWidget.horizontalHeaderItem(9)
         item.setText(_translate("MainWindow", "BATCH NAME"))
         item = self.tableWidget.horizontalHeaderItem(10)
-        item.setText(_translate("MainWindow", "CURR CHAPTER"))
+        item.setText(_translate("MainWindow", "CHAPTER"))
         item = self.tableWidget.horizontalHeaderItem(11)
         item.setText(_translate("MainWindow", "ROOT CHAPTER"))
         item = self.tableWidget.horizontalHeaderItem(12)
@@ -1272,6 +1274,7 @@ class Ui_MainWindow(object):
         self.status_comboBox.setItemText(1, _translate("MainWindow", "INACTIVE"))
         self.status_comboBox.setItemText(2, _translate("MainWindow", "EXPELLED"))
         self.add_btn.setText(_translate("MainWindow", "  ADD NEW"))
+        self.statistics_btn.setText(_translate("MainWindow", "  STATISTICS"))
         self.save_btn.setText(_translate("MainWindow", "  SAVE"))
         self.update_btn.setText(_translate("MainWindow", "  UPDATE"))
         self.cancel_btn.setText(_translate("MainWindow", "  CANCEL"))
