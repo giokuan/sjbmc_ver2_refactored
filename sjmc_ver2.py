@@ -4,11 +4,12 @@ from PyQt5.QtCore import QDate, Qt
 import sqlite3
 from PIL import Image
 import os
-from PyQt5.QtGui import QPixmap, QFont
-from datetime import datetime
+from PyQt5.QtGui import QPixmap, QColor
+# from datetime import datetime
 import random
-# from stat_chart import MyMainWindow
+from cert import Ui_MainClear
 from statistics_chart import Ui_MainWindowStat
+
 
 
 
@@ -21,6 +22,33 @@ class Ui_MainWindow(object):
         self.ui = Ui_MainWindowStat()
         self.ui.setupUi(self.window)
         self.window.show()
+
+
+    def info_col(self):
+        
+        x = self.lname_lineEdit.text()
+        y = self.fname_lineEdit.text()
+        gt = self.gt_lineEdit.text()
+        root = self.root_chapter_lineEdit.text()
+        batch = self.batch_name_lineEdit.text()
+        z = (y +" "+ x)
+        tbirth = self.tbirt_dateEdit.text()       
+        self.ui.ir_edit.setText(tbirth)
+        self.ui.name_edit.setText(z)
+        self.ui.gt_edit.setText(gt)
+        self.ui.chapter_edit.setText(root)
+        self.ui.batch_edit.setText(batch)
+
+
+          
+    def open_col(self):
+        """ Open the cert form window"""
+        self.window =QtWidgets.QMainWindow()
+        self.ui = Ui_MainClear()
+        self.ui.setupUi(self.window)
+        #MainWindow.close()
+        self.window.show()
+        self.info_col()
   
 
         # chart_window = MyMainWindow(self)
@@ -691,10 +719,8 @@ class Ui_MainWindow(object):
         self.tableWidget.setObjectName("tableWidget")
         self.tableWidget.setFrameShape(QtWidgets.QFrame.WinPanel)
         self.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-        # self.tableWidget.setStyleSheet("background-color: qlineargradient(spread:pad,\
-        #     x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 230));")
         self.tableWidget.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));")
-
+        
         self.tableWidget.setColumnCount(15)
         self.tableWidget.setRowCount(0)
         item = QtWidgets.QTableWidgetItem()
@@ -826,6 +852,7 @@ class Ui_MainWindow(object):
         qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0),\
         stop:1 rgba(255, 255, 255, 255));")
         self.col_btn.setObjectName("col_btn")
+        self.col_btn.clicked.connect(self.open_col)
         
 
         self.member_info_frame = QtWidgets.QFrame(self.centralwidget)

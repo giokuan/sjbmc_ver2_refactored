@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, QLi
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 import sqlite3
+from PyQt5.QtCore import Qt
 
 
 
@@ -146,7 +147,7 @@ class Ui_MainWindowStat(object):
         MainWindowStat.resize(1011, 940)
         self.centralwidget = QtWidgets.QWidget(MainWindowStat)
         self.centralwidget.setObjectName("centralwidget")
-        # self.layout = QVBoxLayout(self.centralwidget)
+        MainWindowStat.setWindowFlag(Qt.WindowMaximizeButtonHint, False)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("logo/ico_logo.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindowStat.setWindowIcon(icon)
@@ -155,6 +156,8 @@ class Ui_MainWindowStat(object):
         self.total_member_lineEdit = QtWidgets.QLineEdit(self.centralwidget)
         self.total_member_lineEdit.setGeometry(QtCore.QRect(40, 50, 121, 31))
         self.total_member_lineEdit.setObjectName("total_member_lineEdit")
+        self.total_member_lineEdit.setStyleSheet("background-color: rgb(24, 24, 24);color: rgb(6, 254, 192)")
+        self.total_member_lineEdit.setEnabled(False)
 
         self.total_member_label = QtWidgets.QLabel(self.centralwidget)
         self.total_member_label.setGeometry(QtCore.QRect(40, 30, 91, 16))
@@ -192,11 +195,13 @@ class Ui_MainWindowStat(object):
         self.total_chapter_lineEdit = QtWidgets.QLineEdit(self.total_frame)
         self.total_chapter_lineEdit.setGeometry(QtCore.QRect(170, 30, 121, 31))
         self.total_chapter_lineEdit.setObjectName("total_chapter_lineEdit")
-
+        self.total_chapter_lineEdit.setStyleSheet("background-color: rgb(24, 24, 24);color: rgb(6, 254, 192)")
+        self.total_chapter_lineEdit.setEnabled(False)
         self.total_chapter_label = QtWidgets.QLabel(self.total_frame)
         self.total_chapter_label.setGeometry(QtCore.QRect(170, 10, 91, 16))
         self.total_chapter_label.setObjectName("total_chapter_label")
         self.total_chapter_label.setStyleSheet("color: rgb(255, 199, 4);")
+        
 
         self.member_chapter_frame_2 = QtWidgets.QFrame(self.centralwidget)
         self.member_chapter_frame_2.setGeometry(QtCore.QRect(20, 170, 971, 241))
@@ -208,6 +213,8 @@ class Ui_MainWindowStat(object):
         self.Abung_lineEdit = QtWidgets.QLineEdit(self.member_chapter_frame_2)
         self.Abung_lineEdit.setGeometry(QtCore.QRect(20, 40, 131, 20))
         self.Abung_lineEdit.setObjectName("Abung_lineEdit")
+        self.Abung_lineEdit.setStyleSheet("background-color: rgb(24, 24, 24);color: rgb(6, 254, 192)")
+        self.Abung_lineEdit.setEnabled(False)
         self.abung_label = QtWidgets.QLabel(self.member_chapter_frame_2)
         self.abung_label.setGeometry(QtCore.QRect(20, 20, 91, 16))
         self.abung_label.setObjectName("abung_label")
@@ -217,6 +224,8 @@ class Ui_MainWindowStat(object):
         self.buhaynasapa_lineEdit.setGeometry(QtCore.QRect(20, 140, 131, 20))
         self.buhaynasapa_lineEdit.setText("")
         self.buhaynasapa_lineEdit.setObjectName("buhaynasapa_lineEdit")
+        self.buhaynasapa_lineEdit.setStyleSheet("background-color: rgb(24, 24, 24);color: rgb(6, 254, 192)")
+        self.buhaynasapa_lineEdit.setEnabled(False)
         self.buhaynasapa_label = QtWidgets.QLabel(self.member_chapter_frame_2)
         self.buhaynasapa_label.setGeometry(QtCore.QRect(20, 120, 131, 16))
         self.buhaynasapa_label.setObjectName("buhaynasapa_label")
@@ -226,6 +235,8 @@ class Ui_MainWindowStat(object):
         self.balagbag_lineEdit.setGeometry(QtCore.QRect(20, 90, 131, 20))
         self.balagbag_lineEdit.setText("")
         self.balagbag_lineEdit.setObjectName("balagbag_lineEdit")
+        self.balagbag_lineEdit.setStyleSheet("background-color: rgb(24, 24, 24);color: rgb(6, 254, 192)")
+        self.balagbag_lineEdit.setEnabled(False)
         self.balagbag_label = QtWidgets.QLabel(self.member_chapter_frame_2)
         self.balagbag_label.setGeometry(QtCore.QRect(20, 70, 111, 16))
         self.balagbag_label.setObjectName("balagbag_label")
@@ -239,6 +250,8 @@ class Ui_MainWindowStat(object):
         self.calitcalit_lineEdit.setGeometry(QtCore.QRect(180, 90, 131, 20))
         self.calitcalit_lineEdit.setText("")
         self.calitcalit_lineEdit.setObjectName("calitcalit_lineEdit")
+        self.calitcalit_lineEdit.setStyleSheet("background-color: rgb(24, 24, 24);color: rgb(6, 254, 192)")
+        self.calitcalit_lineEdit.setEnabled(False)
 
         self.bulsa_label = QtWidgets.QLabel(self.member_chapter_frame_2)
         self.bulsa_label.setGeometry(QtCore.QRect(20, 170, 131, 16))
@@ -248,6 +261,8 @@ class Ui_MainWindowStat(object):
         self.bulsa_lineEdit.setGeometry(QtCore.QRect(20, 190, 131, 20))
         self.bulsa_lineEdit.setText("")
         self.bulsa_lineEdit.setObjectName("bulsa_lineEdit")
+        self.bulsa_lineEdit.setStyleSheet("background-color: rgb(24, 24, 24);color: rgb(6, 254, 192)")
+        self.bulsa_lineEdit.setEnabled(False)
 
         self.calicanto_label = QtWidgets.QLabel(self.member_chapter_frame_2)
         self.calicanto_label.setGeometry(QtCore.QRect(180, 20, 131, 16))
@@ -257,11 +272,15 @@ class Ui_MainWindowStat(object):
         self.calicanto_lineEdit.setGeometry(QtCore.QRect(180, 40, 131, 20))
         self.calicanto_lineEdit.setText("")
         self.calicanto_lineEdit.setObjectName("calicanto_lineEdit")
+        self.calicanto_lineEdit.setStyleSheet("background-color: rgb(24, 24, 24);color: rgb(6, 254, 192)")
+        self.calicanto_lineEdit.setEnabled(False)
 
         self.calubcub_lineEdit = QtWidgets.QLineEdit(self.member_chapter_frame_2)
         self.calubcub_lineEdit.setGeometry(QtCore.QRect(180, 140, 131, 20))
         self.calubcub_lineEdit.setText("")
         self.calubcub_lineEdit.setObjectName("calubcub_lineEdit")
+        self.calubcub_lineEdit.setStyleSheet("background-color: rgb(24, 24, 24);color: rgb(6, 254, 192)")
+        self.calubcub_lineEdit.setEnabled(False)
         self.calubcub_label = QtWidgets.QLabel(self.member_chapter_frame_2)
         self.calubcub_label.setGeometry(QtCore.QRect(180, 120, 131, 16))
         self.calubcub_label.setObjectName("calubcub_label")
@@ -271,6 +290,8 @@ class Ui_MainWindowStat(object):
         self.hugom_lineEdit.setGeometry(QtCore.QRect(180, 190, 131, 20))
         self.hugom_lineEdit.setText("")
         self.hugom_lineEdit.setObjectName("hugom_lineEdit")
+        self.hugom_lineEdit.setStyleSheet("background-color: rgb(24, 24, 24);color: rgb(6, 254, 192)")
+        self.hugom_lineEdit.setEnabled(False)
         self.hugom_label = QtWidgets.QLabel(self.member_chapter_frame_2)
         self.hugom_label.setGeometry(QtCore.QRect(180, 170, 131, 16))
         self.hugom_label.setObjectName("hugom_label")
@@ -284,6 +305,8 @@ class Ui_MainWindowStat(object):
         self.imelda_lineEdit.setGeometry(QtCore.QRect(340, 40, 131, 20))
         self.imelda_lineEdit.setText("")
         self.imelda_lineEdit.setObjectName("imelda_lineEdit")
+        self.imelda_lineEdit.setStyleSheet("background-color: rgb(24, 24, 24);color: rgb(6, 254, 192)")
+        self.imelda_lineEdit.setEnabled(False)
 
         self.aplaya_label = QtWidgets.QLabel(self.member_chapter_frame_2)
         self.aplaya_label.setGeometry(QtCore.QRect(340, 70, 131, 16))
@@ -293,6 +316,8 @@ class Ui_MainWindowStat(object):
         self.aplaya_lineEdit.setGeometry(QtCore.QRect(340, 90, 131, 20))
         self.aplaya_lineEdit.setText("")
         self.aplaya_lineEdit.setObjectName("aplaya_lineEdit")
+        self.aplaya_lineEdit.setStyleSheet("background-color: rgb(24, 24, 24);color: rgb(6, 254, 192)")
+        self.aplaya_lineEdit.setEnabled(False)
         
         self.ibabao_label = QtWidgets.QLabel(self.member_chapter_frame_2)
         self.ibabao_label.setGeometry(QtCore.QRect(340, 120, 131, 16))
@@ -302,6 +327,8 @@ class Ui_MainWindowStat(object):
         self.ibabao_lineEdit.setGeometry(QtCore.QRect(340, 140, 131, 20))
         self.ibabao_lineEdit.setText("")
         self.ibabao_lineEdit.setObjectName("ibabao_lineEdit")
+        self.ibabao_lineEdit.setStyleSheet("background-color: rgb(24, 24, 24);color: rgb(6, 254, 192)")
+        self.ibabao_lineEdit.setEnabled(False)
 
         self.mabalanoy_label = QtWidgets.QLabel(self.member_chapter_frame_2)
         self.mabalanoy_label.setGeometry(QtCore.QRect(340, 170, 131, 16))
@@ -311,6 +338,8 @@ class Ui_MainWindowStat(object):
         self.mabalanoy_lineEdit.setGeometry(QtCore.QRect(340, 190, 131, 20))
         self.mabalanoy_lineEdit.setText("")
         self.mabalanoy_lineEdit.setObjectName("mabalanoy_lineEdit")
+        self.mabalanoy_lineEdit.setStyleSheet("background-color: rgb(24, 24, 24);color: rgb(6, 254, 192)")
+        self.mabalanoy_lineEdit.setEnabled(False)
 
         self.maraykit_label = QtWidgets.QLabel(self.member_chapter_frame_2)
         self.maraykit_label.setGeometry(QtCore.QRect(500, 20, 131, 16))
@@ -320,6 +349,8 @@ class Ui_MainWindowStat(object):
         self.maraykit_lineEdit.setGeometry(QtCore.QRect(500, 40, 131, 20))
         self.maraykit_lineEdit.setText("")
         self.maraykit_lineEdit.setObjectName("maraykit_lineEdit")
+        self.maraykit_lineEdit.setStyleSheet("background-color: rgb(24, 24, 24);color: rgb(6, 254, 192)")
+        self.maraykit_lineEdit.setEnabled(False)
 
         self.palahanan_label = QtWidgets.QLabel(self.member_chapter_frame_2)
         self.palahanan_label.setGeometry(QtCore.QRect(500, 70, 131, 16))
@@ -329,6 +360,8 @@ class Ui_MainWindowStat(object):
         self.palahanan_lineEdit.setGeometry(QtCore.QRect(500, 90, 131, 20))
         self.palahanan_lineEdit.setText("")
         self.palahanan_lineEdit.setObjectName("palahanan_lineEdit")
+        self.palahanan_lineEdit.setStyleSheet("background-color: rgb(24, 24, 24);color: rgb(6, 254, 192)")
+        self.palahanan_lineEdit.setEnabled(False)
 
         self.poblacion_label = QtWidgets.QLabel(self.member_chapter_frame_2)
         self.poblacion_label.setGeometry(QtCore.QRect(500, 120, 131, 16))
@@ -338,6 +371,8 @@ class Ui_MainWindowStat(object):
         self.poblacion_lineEdit.setGeometry(QtCore.QRect(500, 140, 131, 20))
         self.poblacion_lineEdit.setText("")
         self.poblacion_lineEdit.setObjectName("poblacion_lineEdit")
+        self.poblacion_lineEdit.setStyleSheet("background-color: rgb(24, 24, 24);color: rgb(6, 254, 192)")
+        self.poblacion_lineEdit.setEnabled(False)
 
         self.putingbuhangin_label = QtWidgets.QLabel(self.member_chapter_frame_2)
         self.putingbuhangin_label.setGeometry(QtCore.QRect(500, 170, 131, 16))
@@ -347,6 +382,8 @@ class Ui_MainWindowStat(object):
         self.putingbuhangin_lineEdit.setGeometry(QtCore.QRect(500, 190, 131, 20))
         self.putingbuhangin_lineEdit.setText("")
         self.putingbuhangin_lineEdit.setObjectName("putingbuhangin_lineEdit")
+        self.putingbuhangin_lineEdit.setStyleSheet("background-color: rgb(24, 24, 24);color: rgb(6, 254, 192)")
+        self.putingbuhangin_lineEdit.setEnabled(False)
 
         self.sampiro_label = QtWidgets.QLabel(self.member_chapter_frame_2)
         self.sampiro_label.setGeometry(QtCore.QRect(660, 20, 131, 16))
@@ -356,15 +393,19 @@ class Ui_MainWindowStat(object):
         self.sampiro_lineEdit.setGeometry(QtCore.QRect(660, 40, 131, 20))
         self.sampiro_lineEdit.setText("")
         self.sampiro_lineEdit.setObjectName("sampiro_lineEdit")
+        self.sampiro_lineEdit.setStyleSheet("background-color: rgb(24, 24, 24);color: rgb(6, 254, 192)")
+        self.sampiro_lineEdit.setEnabled(False)
 
         self.sapangan_label = QtWidgets.QLabel(self.member_chapter_frame_2)
         self.sapangan_label.setGeometry(QtCore.QRect(660, 70, 131, 16))
         self.sapangan_label.setObjectName("sapangan_label")
-        self.sampiro_label.setStyleSheet("color: rgb(255, 199, 4);")
+        self.sapangan_label.setStyleSheet("color: rgb(255, 199, 4);")
         self.sapangan_lineEdit = QtWidgets.QLineEdit(self.member_chapter_frame_2)
         self.sapangan_lineEdit.setGeometry(QtCore.QRect(660, 90, 131, 20))
         self.sapangan_lineEdit.setText("")
         self.sapangan_lineEdit.setObjectName("sapangan_lineEdit")
+        self.sapangan_lineEdit.setStyleSheet("background-color: rgb(24, 24, 24);color: rgb(6, 254, 192)")
+        self.sapangan_lineEdit.setEnabled(False)
 
         self.sico_label = QtWidgets.QLabel(self.member_chapter_frame_2)
         self.sico_label.setGeometry(QtCore.QRect(660, 120, 131, 16))
@@ -374,6 +415,8 @@ class Ui_MainWindowStat(object):
         self.sico_lineEdit.setGeometry(QtCore.QRect(660, 140, 131, 20))
         self.sico_lineEdit.setText("")
         self.sico_lineEdit.setObjectName("sico_lineEdit")
+        self.sico_lineEdit.setStyleSheet("background-color: rgb(24, 24, 24);color: rgb(6, 254, 192)")
+        self.sico_lineEdit.setEnabled(False)
 
         self.talahiban_label = QtWidgets.QLabel(self.member_chapter_frame_2)
         self.talahiban_label.setGeometry(QtCore.QRect(660, 170, 131, 16))
@@ -383,6 +426,8 @@ class Ui_MainWindowStat(object):
         self.talahiban_lineEdit.setGeometry(QtCore.QRect(660, 190, 131, 20))
         self.talahiban_lineEdit.setText("")
         self.talahiban_lineEdit.setObjectName("talahiban_lineEdit")
+        self.talahiban_lineEdit.setStyleSheet("background-color: rgb(24, 24, 24);color: rgb(6, 254, 192)")
+        self.talahiban_lineEdit.setEnabled(False)
 
         self.ticalan_label = QtWidgets.QLabel(self.member_chapter_frame_2)
         self.ticalan_label.setGeometry(QtCore.QRect(820, 20, 131, 16))
@@ -392,15 +437,19 @@ class Ui_MainWindowStat(object):
         self.ticalan_lineEdit.setGeometry(QtCore.QRect(820, 40, 131, 20))
         self.ticalan_lineEdit.setText("")
         self.ticalan_lineEdit.setObjectName("ticalan_lineEdit")
+        self.ticalan_lineEdit.setStyleSheet("background-color: rgb(24, 24, 24);color: rgb(6, 254, 192)")
+        self.ticalan_lineEdit.setEnabled(False)
 
         self.tipaz_label = QtWidgets.QLabel(self.member_chapter_frame_2)
         self.tipaz_label.setGeometry(QtCore.QRect(820, 70, 131, 16))
         self.tipaz_label.setObjectName("tipaz_label")
-        self.ticalan_label.setStyleSheet("color: rgb(255, 199, 4);")
+        self.tipaz_label.setStyleSheet("color: rgb(255, 199, 4);")
         self.tipaz_lineEdit = QtWidgets.QLineEdit(self.member_chapter_frame_2)
         self.tipaz_lineEdit.setGeometry(QtCore.QRect(820, 90, 131, 20))
         self.tipaz_lineEdit.setText("")
         self.tipaz_lineEdit.setObjectName("tipaz_lineEdit")
+        self.tipaz_lineEdit.setStyleSheet("background-color: rgb(24, 24, 24);color: rgb(6, 254, 192)")
+        self.tipaz_lineEdit.setEnabled(False)
 
       
         self.total_member_of_chapter_label = QtWidgets.QLabel(self.centralwidget)
